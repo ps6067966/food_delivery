@@ -225,7 +225,6 @@ class IntroScreenState extends State<IntroScreen> {
         // Next button
         renderNextBtn: this.renderNextBtn(),
 
-
         // Done button
         renderDoneBtn: this.renderDoneBtn(),
         // colorDoneBtn: const Color(0xffffb90b),
