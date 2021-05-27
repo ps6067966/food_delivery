@@ -289,12 +289,15 @@ class _SignupPageState extends State<SignupPage> {
                                   ),
                                 ],
                               ),
-                              Text(
-                                'Forgot Password',
-                                style: FlutterFlowTheme.bodyText1.override(
-                                  fontFamily: 'Poppins',
-                                  color: Color(0xFFFFB90B),
-                                  fontSize: 12,
+                              TextButton(
+                                onPressed: () {},
+                                child: Text(
+                                  'Forgot Password',
+                                  style: FlutterFlowTheme.bodyText1.override(
+                                    fontFamily: 'Poppins',
+                                    color: Color(0xFFFFB90B),
+                                    fontSize: 12,
+                                  ),
                                 ),
                               )
                             ],
@@ -302,7 +305,7 @@ class _SignupPageState extends State<SignupPage> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.fromLTRB(22, 0, 22, 15),
+                        padding: EdgeInsets.fromLTRB(22, 0, 22, 5),
                         child: Container(
                           width: double.infinity,
                           height: 60,
@@ -310,27 +313,24 @@ class _SignupPageState extends State<SignupPage> {
                             color: Color(0xFFEEEEEE),
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(2, 0, 2, 0),
-                            child: FFButtonWidget(
-                              onPressed: () {
-                                print('Button pressed ...');
-                              },
-                              text: 'Sign in',
-                              options: FFButtonOptions(
-                                width: double.infinity,
-                                height: 60,
-                                color: Color(0xFFFFB90B),
-                                textStyle: FlutterFlowTheme.subtitle2.override(
-                                  fontFamily: 'Poppins',
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                borderSide: BorderSide(
-                                  color: Colors.transparent,
-                                ),
-                                borderRadius: 20,
+                          child: FFButtonWidget(
+                            onPressed: () {
+                              print('Button pressed ...');
+                            },
+                            text: 'Sign in',
+                            options: FFButtonOptions(
+                              width: double.infinity,
+                              height: 60,
+                              color: Color(0xFFFFB90B),
+                              textStyle: FlutterFlowTheme.subtitle2.override(
+                                fontFamily: 'Poppins',
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
                               ),
+                              borderSide: BorderSide(
+                                color: Colors.transparent,
+                              ),
+                              borderRadius: 20,
                             ),
                           ),
                         ),
@@ -340,17 +340,20 @@ class _SignupPageState extends State<SignupPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Don\'t have an account? ',
+                            'Don\'t have an account?',
                             style: FlutterFlowTheme.bodyText1.override(
                               fontFamily: 'Poppins',
                               color: Colors.black87,
                             ),
                           ),
-                          Text(
-                            'Sign up',
-                            style: FlutterFlowTheme.bodyText1.override(
-                              fontFamily: 'Poppins',
-                              color: Color(0xFFFFB90B),
+                          TextButton(
+                            onPressed: () {},
+                            child: Text(
+                              'Sign up',
+                              style: FlutterFlowTheme.bodyText1.override(
+                                fontFamily: 'Poppins',
+                                color: Color(0xFFFFB90B),
+                              ),
                             ),
                           )
                         ],
@@ -358,7 +361,7 @@ class _SignupPageState extends State<SignupPage> {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 25, 0, 25),
+                    padding: EdgeInsets.fromLTRB(0, 12,0, 20),
                     child: Text(
                       'OR',
                       textAlign: TextAlign.center,
