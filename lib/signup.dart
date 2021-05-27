@@ -15,6 +15,7 @@ class SignupPage extends StatefulWidget {
 class _SignupPageState extends State<SignupPage> {
   TextEditingController textController1;
   TextEditingController textController2;
+  TextEditingController textController3;
   bool checkboxListTileValue;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -23,6 +24,7 @@ class _SignupPageState extends State<SignupPage> {
     super.initState();
     textController1 = TextEditingController();
     textController2 = TextEditingController();
+    textController3 = TextEditingController();
   }
 
   @override
@@ -195,7 +197,7 @@ class _SignupPageState extends State<SignupPage> {
                                     child: TextFormField(
                                       cursorColor:
                                           FlutterFlowTheme.primaryColor,
-                                      controller: textController1,
+                                      controller: textController2,
                                       obscureText: false,
                                       decoration: InputDecoration(
                                         hintText: 'Email',
@@ -265,7 +267,7 @@ class _SignupPageState extends State<SignupPage> {
                                     child: TextFormField(
                                       cursorColor:
                                           FlutterFlowTheme.primaryColor,
-                                      controller: textController2,
+                                      controller: textController3,
                                       obscureText: true,
                                       decoration: InputDecoration(
                                         hintText: 'Password',
