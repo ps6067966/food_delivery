@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'login.dart';
 
 class IntroScreen extends StatefulWidget {
-  static String id = 'IntroScreen';
+
   IntroScreen({Key key}) : super(key: key);
 
   @override
@@ -165,7 +165,7 @@ class IntroScreenState extends State<IntroScreen> {
     await Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
-        builder: (context) => LogInScreen(),
+        builder: (context) => LoginScreen.create(context),
       ),
       (r) => false,
     );
