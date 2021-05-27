@@ -1,18 +1,16 @@
-import 'package:food_delivery/signin.dart';
-
-import 'theme.dart';
-import 'flutterFlowWidget.dart';
+import 'package:food_delivery/theme.dart';
+import 'package:food_delivery/flutterFlowWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class SignupPage extends StatefulWidget {
-  SignupPage({Key key}) : super(key: key);
+class SigninPage extends StatefulWidget {
+  SigninPage({Key key}) : super(key: key);
 
   @override
-  _SignupPageState createState() => _SignupPageState();
+  _SigninPageState createState() => _SigninPageState();
 }
 
-class _SignupPageState extends State<SignupPage> {
+class _SigninPageState extends State<SigninPage> {
   TextEditingController textController1;
   TextEditingController textController2;
   bool checkboxListTileValue;
@@ -53,6 +51,7 @@ class _SignupPageState extends State<SignupPage> {
                           padding: EdgeInsets.fromLTRB(14, 0, 14, 0),
                           child: IconButton(
                             onPressed: () {
+                              Navigator.pop(context);
                               print('IconButton pressed ...');
                             },
                             icon: Icon(
@@ -64,9 +63,9 @@ class _SignupPageState extends State<SignupPage> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+                          padding: EdgeInsets.fromLTRB(65, 0, 0, 0),
                           child: Text(
-                            'Create an Account',
+                            'Sign in',
                             style: FlutterFlowTheme.title2.override(
                               fontFamily: 'Poppins',
                               fontWeight: FontWeight.w600,
@@ -83,7 +82,7 @@ class _SignupPageState extends State<SignupPage> {
                       shape: BoxShape.rectangle,
                     ),
                     child: Text(
-                      'Please enter your name, email and password to sign up',
+                      'Please enter your email to sign in',
                       textAlign: TextAlign.center,
                       style: FlutterFlowTheme.bodyText1.override(
                         fontFamily: 'Poppins',
@@ -128,77 +127,7 @@ class _SignupPageState extends State<SignupPage> {
                                       controller: textController1,
                                       obscureText: false,
                                       decoration: InputDecoration(
-                                        hintText: 'Name',
-                                        hintStyle:
-                                            FlutterFlowTheme.bodyText1.override(
-                                          fontFamily: 'Poppins',
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                        enabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Colors.transparent,
-                                            width: 1,
-                                          ),
-                                          borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(4.0),
-                                            topRight: Radius.circular(4.0),
-                                          ),
-                                        ),
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Colors.transparent,
-                                            width: 1,
-                                          ),
-                                          borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(4.0),
-                                            topRight: Radius.circular(4.0),
-                                          ),
-                                        ),
-                                      ),
-                                      style:
-                                          FlutterFlowTheme.bodyText1.override(
-                                        fontFamily: 'Poppins',
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(22, 0, 20, 20),
-                        child: Container(
-                          width: double.infinity,
-                          height: 60,
-                          decoration: BoxDecoration(
-                            color: Color(0xFFEEEEEE),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Icon(
-                                  Icons.mail_outline,
-                                  color: Colors.black54,
-                                  size: 24,
-                                ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                                    child: TextFormField(
-                                      cursorColor:
-                                          FlutterFlowTheme.primaryColor,
-                                      controller: textController1,
-                                      obscureText: false,
-                                      decoration: InputDecoration(
-                                        hintText: 'Email',
+                                        hintText: 'Email or Phone number',
                                         hintStyle:
                                             FlutterFlowTheme.bodyText1.override(
                                           fontFamily: 'Poppins',
@@ -320,7 +249,7 @@ class _SignupPageState extends State<SignupPage> {
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Row(
                                 children: [
@@ -351,7 +280,7 @@ class _SignupPageState extends State<SignupPage> {
                                     ),
                                   ),
                                   Text(
-                                    'I agree to',
+                                    'Remember me',
                                     textAlign: TextAlign.start,
                                     style: FlutterFlowTheme.bodyText1.override(
                                       fontFamily: 'Poppins',
@@ -364,7 +293,7 @@ class _SignupPageState extends State<SignupPage> {
                               TextButton(
                                 onPressed: () {},
                                 child: Text(
-                                  'Terms & Conditions',
+                                  'Forgot Password',
                                   style: FlutterFlowTheme.bodyText1.override(
                                     fontFamily: 'Poppins',
                                     color: Color(0xFFFFB90B),
@@ -389,7 +318,7 @@ class _SignupPageState extends State<SignupPage> {
                             onPressed: () {
                               print('Button pressed ...');
                             },
-                            text: 'Sign up',
+                            text: 'Sign in',
                             options: FFButtonOptions(
                               width: double.infinity,
                               height: 60,
@@ -412,7 +341,7 @@ class _SignupPageState extends State<SignupPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Already have an account?',
+                            'Don\'t have an account?',
                             style: FlutterFlowTheme.bodyText1.override(
                               fontFamily: 'Poppins',
                               color: Colors.black87,
@@ -420,13 +349,10 @@ class _SignupPageState extends State<SignupPage> {
                           ),
                           TextButton(
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SigninPage()));
+                              Navigator.pop(context);
                             },
                             child: Text(
-                              'Sign in',
+                              'Sign up',
                               style: FlutterFlowTheme.bodyText1.override(
                                 fontFamily: 'Poppins',
                                 color: Color(0xFFFFB90B),
@@ -437,6 +363,81 @@ class _SignupPageState extends State<SignupPage> {
                       )
                     ],
                   ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(0, 12, 0, 20),
+                    child: Text(
+                      'OR',
+                      textAlign: TextAlign.center,
+                      style: FlutterFlowTheme.bodyText1.override(
+                        fontFamily: 'Poppins',
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                  Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(22, 0, 22, 20),
+                        child: FFButtonWidget(
+                          onPressed: () {
+                            print('Button pressed ...');
+                          },
+                          text: 'Connect with Facebook',
+                          icon: Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 7, 0),
+                            child: FaIcon(
+                              FontAwesomeIcons.facebookF,
+                            ),
+                          ),
+                          options: FFButtonOptions(
+                            width: double.infinity,
+                            height: 60,
+                            color: Colors.blue[800],
+                            textStyle: FlutterFlowTheme.subtitle2.override(
+                              fontFamily: 'Poppins',
+                              color: Colors.white,
+                            ),
+                            borderSide: BorderSide(
+                              color: Colors.transparent,
+                              width: 0,
+                            ),
+                            borderRadius: 20,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(22, 0, 22, 20),
+                        child: FFButtonWidget(
+                          onPressed: () {
+                            print('Button pressed ...');
+                          },
+                          text: 'Connect with Google',
+                          icon: Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 7, 0),
+                            child: FaIcon(
+                              FontAwesomeIcons.google,
+                            ),
+                          ),
+                          options: FFButtonOptions(
+                            width: double.infinity,
+                            height: 60,
+                            color: Colors.red[800],
+                            textStyle: FlutterFlowTheme.subtitle2.override(
+                              fontFamily: 'Poppins',
+                              color: Colors.white,
+                            ),
+                            borderSide: BorderSide(
+                              color: Colors.transparent,
+                              width: 0,
+                            ),
+                            borderRadius: 20,
+                          ),
+                        ),
+                      )
+                    ],
+                  )
                 ],
               )
             ],
