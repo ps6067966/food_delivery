@@ -1,7 +1,7 @@
-import 'package:food_delivery/dependencies/theme.dart';
-import 'package:food_delivery/dependencies/flutterflowwidget.dart';
+import 'package:food_delivery/constant/flutterflowwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:food_delivery/constant/theme.dart';
 
 class SigninPage extends StatefulWidget {
   SigninPage({Key key}) : super(key: key);

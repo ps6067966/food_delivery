@@ -1,7 +1,7 @@
+import 'package:food_delivery/constant/theme.dart';
 import 'package:food_delivery/screens/login/signin.dart';
 
-import '../../dependencies/theme.dart';
-import '../../dependencies/flutterflowwidget.dart';
+import '../../constant/flutterflowwidget.dart';
 import 'package:flutter/material.dart';
 
 class SignupPage extends StatefulWidget {
