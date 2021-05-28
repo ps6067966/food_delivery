@@ -18,11 +18,21 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
+<<<<<<< HEAD
   sdk: ">=2.12.0 <3.0.0"
+=======
+  sdk: ">=2.7.0 <3.0.0"
+>>>>>>> signup_signin_ui
 
 dependencies:
   flutter:
     sdk: flutter
+<<<<<<< HEAD
+=======
+  google_fonts: ^2.1.0
+  font_awesome_flutter: ^9.0.0
+  auto_size_text: ^2.1.0
+>>>>>>> signup_signin_ui
 
 
   # The following adds the Cupertino Icons font to your application.

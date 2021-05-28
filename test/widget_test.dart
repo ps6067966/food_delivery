@@ -13,7 +13,11 @@ import 'package:food_delivery/main.dart';
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
+<<<<<<< HEAD
     await tester.pumpWidget(FoodDeliveryApp());
+=======
+    await tester.pumpWidget(MyApp());
+>>>>>>> signup_signin_ui
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);
