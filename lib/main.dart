@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:splashscreen/splashscreen.dart';
 
+import 'screens/splash/splash.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
@@ -82,38 +84,8 @@ class _MyAppState extends State<MyApp> {
         title: 'Food Delivery',
         theme: ThemeData(primarySwatch: Colors.orange),
         debugShowCheckedModeBanner: false,
-        home: SplashScreen(
-          seconds: 4,
-          navigateAfterSeconds:
-              widget.isFirstTime ? IntroScreen() : LandingPage(),
-          backgroundColor: const Color(0xffffb90b),
-          photoSize: 50,
-          image: Image.asset(
-            'assets/images/splashscreen.png',
-            fit: BoxFit.cover,
-          ),
-          loaderColor: Colors.white,
-          title: Text.rich(
-            new TextSpan(
-              text: 'AA HAA INN \n',
-              style: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 32.0,
-                  letterSpacing: 2,
-                  color: Colors.white),
-              children: <TextSpan>[
-                new TextSpan(
-                  text: 'Food Delivery',
-                  style: new TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 18.0,
-                    letterSpacing: 0,
-                  ),
-                ),
-              ],
-            ),
-            textAlign: TextAlign.center,
-          ),
+        home: Scaffold(
+          body: Splash(widget: widget),
         ),
       ),
     );

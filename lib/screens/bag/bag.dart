@@ -1,14 +1,14 @@
 import 'package:food_delivery/constant/theme.dart';
 import 'package:flutter/material.dart';
 
-class BagScreenWidget extends StatefulWidget {
-  BagScreenWidget({Key key}) : super(key: key);
+class BagScreen extends StatefulWidget {
+  BagScreen({Key key}) : super(key: key);
 
   @override
-  _BagScreenWidgetState createState() => _BagScreenWidgetState();
+  _BagScreenState createState() => _BagScreenState();
 }
 
-class _BagScreenWidgetState extends State<BagScreenWidget> {
+class _BagScreenState extends State<BagScreen> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
