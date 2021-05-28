@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery/signup.dart';
+import 'package:food_delivery/screens/signup.dart';
 
 void main() {
   runApp(MyApp());
