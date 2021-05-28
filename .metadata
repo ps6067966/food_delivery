@@ -5,10 +5,14 @@
 
 version:
 <<<<<<< HEAD
+<<<<<<< HEAD
   revision: b22742018b3edf16c6cadd7b76d9db5e7f9064b5
 =======
   revision: 1d9032c7e1d867f071f2277eb1673e8f9b0274e3
 >>>>>>> signup_signin_ui
+=======
+  revision: 4d7946a68d26794349189cf21b3f68cc6fe61dcb
+>>>>>>> Anon_login
   channel: stable
 
 project_type: app
