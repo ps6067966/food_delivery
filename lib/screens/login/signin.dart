@@ -1,5 +1,5 @@
-import 'package:food_delivery/theme.dart';
-import 'package:food_delivery/flutterFlowWidget.dart';
+import 'package:food_delivery/dependencies/theme.dart';
+import 'package:food_delivery/dependencies/flutterflowwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
