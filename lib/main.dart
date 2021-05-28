@@ -16,6 +16,7 @@ void main() {
     var prefs = await SharedPreferences.getInstance();
     var boolKey = 'isFirstTime';
     var isFirstTime = prefs.getBool(boolKey) ?? true;
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
     runApp(new MyApp(
       isFirstTime: isFirstTime,
     ));
@@ -80,7 +81,10 @@ class _MyAppState extends State<MyApp> {
       create: (context) => Auth(),
       child: MaterialApp(
         title: 'Food Delivery',
-        theme: ThemeData(primarySwatch: Colors.orange),
+        theme: ThemeData(
+          primarySwatch: Colors.orange,
+          unselectedWidgetColor: Color(0x00FFB90B),
+        ),
         debugShowCheckedModeBanner: false,
         home: SplashScreen(
           seconds: 4,
