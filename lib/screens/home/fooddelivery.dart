@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/constant/theme.dart';
-import 'package:food_delivery/screens/bag/bag.dart';
 
 import 'home.dart';
 
@@ -26,7 +25,7 @@ class _FoodDeliveryState extends State<FoodDelivery> {
   Widget build(BuildContext context) {
     final _pages = [
       Homescreen(textController: textController),
-      BagScreen(),
+      Text('Bag Screen Here'),
       Text('Open End Drawer'),
     ];
 
