@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/constant/theme.dart';
 import 'package:food_delivery/screens/bag/bag.dart';
 
 import 'home.dart';
@@ -11,6 +12,7 @@ class FoodDelivery extends StatefulWidget {
 }
 
 class _FoodDeliveryState extends State<FoodDelivery> {
+  int _currentIndex = 0;
   TextEditingController textController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -22,13 +24,11 @@ class _FoodDeliveryState extends State<FoodDelivery> {
 
   @override
   Widget build(BuildContext context) {
-    ///pages
     final _pages = [
       Homescreen(textController: textController),
       BagScreen(),
+      Text('Open End Drawer'),
     ];
-
-    int _currentIndex = 0;
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -37,7 +37,7 @@ class _FoodDeliveryState extends State<FoodDelivery> {
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.white,
           elevation: 10,
-          iconSize: 30,
+          selectedFontSize: 13,
           unselectedItemColor: Colors.black,
           onTap: (index) {
             setState(() {
@@ -54,18 +54,18 @@ class _FoodDeliveryState extends State<FoodDelivery> {
               ),
               activeIcon: Icon(
                 Icons.home_filled,
-                color: Colors.amber[200],
+                color: FlutterFlowTheme.primaryColor,
               ),
             ),
             BottomNavigationBarItem(
               label: 'Bag',
-              icon: Icon(
-                Icons.badge,
+              icon: ImageIcon(
+                AssetImage("assets/images/bag.png"),
                 color: Colors.black,
               ),
-              activeIcon: Icon(
-                Icons.badge,
-                color: Colors.amber[200],
+              activeIcon: ImageIcon(
+                AssetImage("assets/images/bag.png"),
+                color: FlutterFlowTheme.primaryColor,
               ),
             ),
             BottomNavigationBarItem(
@@ -76,7 +76,7 @@ class _FoodDeliveryState extends State<FoodDelivery> {
               ),
               activeIcon: Icon(
                 Icons.menu,
-                color: Colors.amber[200],
+                color: FlutterFlowTheme.primaryColor,
               ),
             ),
           ],
