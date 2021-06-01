@@ -1,12 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:food_delivery/screens/home/fooddelivery.dart';
 import 'package:food_delivery/services/auth.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-//import 'screens/splash/splash.dart';
+import 'screens/splash/splash.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -83,7 +82,7 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(primarySwatch: Colors.orange),
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          body: FoodDelivery()   //Splash(widget: widget),
+          body: Splash(widget: widget),
         ),
       ),
     );

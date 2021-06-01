@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/constant/flutterflowwidget.dart';
 import 'package:food_delivery/constant/theme.dart';
@@ -99,7 +100,7 @@ class _HomescreenState extends State<Homescreen> {
           Padding(
             padding: EdgeInsets.fromLTRB(1, 1, 0, 0),
             child: Text(
-              'Hello [name],',
+              'Hello $FirebaseAuth.instance.currentUser,',
               style: FlutterFlowTheme.bodyText1.override(
                 fontFamily: 'Poppins',
                 color: FlutterFlowTheme.primaryColor,
