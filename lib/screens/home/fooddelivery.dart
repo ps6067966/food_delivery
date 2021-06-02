@@ -32,6 +32,8 @@ class _FoodDeliveryState extends State<FoodDelivery> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        appBar: AppBar(
+          ),
         //endDrawer: ,
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.white,

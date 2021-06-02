@@ -91,6 +91,7 @@ class _HomescreenState extends State<Homescreen> {
   }
 
   Padding greetingAndNotification() {
+    final user = FirebaseAuth.instance.currentUser;
     return Padding(
       padding: EdgeInsets.fromLTRB(10, 20, 10, 0),
       child: Row(
@@ -100,7 +101,7 @@ class _HomescreenState extends State<Homescreen> {
           Padding(
             padding: EdgeInsets.fromLTRB(1, 1, 0, 0),
             child: Text(
-              'Hello $FirebaseAuth.instance.currentUser,',
+              'Hello ${user.displayName},',
               style: FlutterFlowTheme.bodyText1.override(
                 fontFamily: 'Poppins',
                 color: FlutterFlowTheme.primaryColor,

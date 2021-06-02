@@ -7,8 +7,14 @@ abstract class AuthBase {
   Future<CustomUser> signInAnonymously();
   Future<CustomUser> signInWithEmailAndPassword(String email, String password);
   Future<CustomUser> createUserWithEmailAndPassword(
-      String email, String password);
-  Future<CustomUser> changePassword(String email, String oldPassword, String newPassword);
+    String email,
+    String password,
+  );
+  Future<CustomUser> changePassword(
+    String email,
+    String oldPassword,
+    String newPassword,
+  );
   Future<void> signOut();
 }
 
@@ -70,18 +76,19 @@ class Auth implements AuthBase {
     }
   }
 
-  Future<CustomUser> changePassword(String email, String oldPassword, String newPassword) async{
-
-    AuthCredential credential = EmailAuthProvider.credential(email: email, password: oldPassword);
-    final currentUser =  _firebaseAuth.currentUser;
+  Future<CustomUser> changePassword(
+      String email, String oldPassword, String newPassword) async {
+    AuthCredential credential =
+        EmailAuthProvider.credential(email: email, password: oldPassword);
+    final currentUser = _firebaseAuth.currentUser;
     print(currentUser);
 
-    return await currentUser.reauthenticateWithCredential(credential)
-        .then((_) async{
+    return await currentUser
+        .reauthenticateWithCredential(credential)
+        .then((_) async {
       await currentUser.updatePassword(newPassword);
       return _userFromFirebaseUser(currentUser);
-    })
-        .catchError((error){
+    }).catchError((error) {
       return _userFromFirebaseUser(currentUser);
     });
   }

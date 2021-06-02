@@ -5,7 +5,9 @@ import 'package:food_delivery/services/auth.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'screens/splash/splash.dart';
+import 'screens/home/fooddelivery.dart';
+
+//import 'screens/splash/splash.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -82,7 +84,7 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(primarySwatch: Colors.orange),
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          body: Splash(widget: widget),
+          body:  FoodDelivery(),  //Splash(widget: widget),
         ),
       ),
     );
