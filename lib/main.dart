@@ -26,7 +26,7 @@ void main() {
 class MyApp extends StatefulWidget {
   final bool isFirstTime;
 
-  const MyApp({Key key, @required this.isFirstTime}) : super(key: key);
+  const MyApp({Key? key, required this.isFirstTime}) : super(key: key);
 
   @override
   _MyAppState createState() => _MyAppState();

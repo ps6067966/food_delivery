@@ -4,16 +4,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:food_delivery/constant/theme.dart';
 
 class SigninPage extends StatefulWidget {
-  SigninPage({Key key}) : super(key: key);
+  SigninPage({Key? key}) : super(key: key);
 
   @override
   _SigninPageState createState() => _SigninPageState();
 }
 
 class _SigninPageState extends State<SigninPage> {
-  TextEditingController textController1;
-  TextEditingController textController2;
-  bool checkboxListTileValue;
+  TextEditingController? textController1;
+  TextEditingController? textController2;
+  bool? checkboxListTileValue;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override

@@ -3,11 +3,11 @@ import 'package:food_delivery/services/auth.dart';
 import 'package:food_delivery/services/user.dart';
 
 class LogInManager {
-  LogInManager({@required this.auth, @required this.isLoading});
+  LogInManager({required this.auth, required this.isLoading});
   final AuthBase auth;
   final ValueNotifier<bool> isLoading;
 
-  Future<CustomUser> _signIn(Future<CustomUser> Function() signInMethod) async {
+  Future<CustomUser?> _signIn(Future<CustomUser?> Function() signInMethod) async {
     try {
       isLoading.value = true;
       return await signInMethod();
@@ -17,5 +17,5 @@ class LogInManager {
     }
   }
 
-  Future<CustomUser> signInAnonymously() async => await _signIn(auth.signInAnonymously);
+  Future<CustomUser?> signInAnonymously() async => await _signIn(auth.signInAnonymously);
 }

@@ -2,7 +2,7 @@ import 'package:food_delivery/constant/theme.dart';
 import 'package:flutter/material.dart';
 
 class DishDetailScreen extends StatefulWidget {
-  DishDetailScreen({Key key}) : super(key: key);
+  DishDetailScreen({Key? key}) : super(key: key);
 
   @override
   _DishDetailScreenState createState() => _DishDetailScreenState();

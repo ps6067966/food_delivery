@@ -2,7 +2,7 @@ import 'package:food_delivery/constant/theme.dart';
 import 'package:flutter/material.dart';
 
 class MyBag extends StatefulWidget {
-  MyBag({Key key}) : super(key: key);
+  MyBag({Key? key}) : super(key: key);
 
   @override
   _MyBagState createState() => _MyBagState();

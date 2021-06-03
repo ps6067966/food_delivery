@@ -2,15 +2,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:food_delivery/services/user.dart';
 
 abstract class AuthBase {
-  Stream<CustomUser> get user;
-  Future<CustomUser> currentUser();
-  Future<CustomUser> signInAnonymously();
-  Future<CustomUser> signInWithEmailAndPassword(String email, String password);
-  Future<CustomUser> createUserWithEmailAndPassword(
+  Stream<CustomUser?> get user;
+  Future<CustomUser?> currentUser();
+  Future<CustomUser?> signInAnonymously();
+  Future<CustomUser?> signInWithEmailAndPassword(String email, String password);
+  Future<CustomUser?> createUserWithEmailAndPassword(
     String email,
     String password,
   );
-  Future<CustomUser> changePassword(
+  Future<CustomUser?> changePassword(
     String email,
     String oldPassword,
     String newPassword,
@@ -22,25 +22,25 @@ class Auth implements AuthBase {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   // create user obj based on fire base user
-  CustomUser _userFromFirebaseUser(User user) {
+  CustomUser? _userFromFirebaseUser(User? user) {
     return user != null ? CustomUser(uid: user.uid) : null;
   }
 
   @override
-  Stream<CustomUser> get user {
+  Stream<CustomUser?> get user {
     return _firebaseAuth
         .authStateChanges()
-        .map((User user) => _userFromFirebaseUser(user));
+        .map((User? user) => _userFromFirebaseUser(user));
   }
 
   @override
-  Future<CustomUser> currentUser() async {
+  Future<CustomUser?> currentUser() async {
     final user = _firebaseAuth.currentUser;
     return _userFromFirebaseUser(user);
   }
 
   @override
-  Future<CustomUser> signInAnonymously() async {
+  Future<CustomUser?> signInAnonymously() async {
     try {
       final authResult = await _firebaseAuth.signInAnonymously();
       return _userFromFirebaseUser(authResult.user);
@@ -51,7 +51,7 @@ class Auth implements AuthBase {
   }
 
   @override
-  Future<CustomUser> signInWithEmailAndPassword(
+  Future<CustomUser?> signInWithEmailAndPassword(
       String email, String password) async {
     // try {
     final authResult = await _firebaseAuth.signInWithEmailAndPassword(
@@ -64,7 +64,7 @@ class Auth implements AuthBase {
   }
 
   @override
-  Future<CustomUser> createUserWithEmailAndPassword(
+  Future<CustomUser?> createUserWithEmailAndPassword(
       String email, String password) async {
     try {
       final authResult = await _firebaseAuth.createUserWithEmailAndPassword(
@@ -76,11 +76,11 @@ class Auth implements AuthBase {
     }
   }
 
-  Future<CustomUser> changePassword(
+  Future<CustomUser?> changePassword(
       String email, String oldPassword, String newPassword) async {
     AuthCredential credential =
         EmailAuthProvider.credential(email: email, password: oldPassword);
-    final currentUser = _firebaseAuth.currentUser;
+    final currentUser = _firebaseAuth.currentUser!;
     print(currentUser);
 
     return await currentUser

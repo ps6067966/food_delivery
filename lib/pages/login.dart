@@ -7,9 +7,9 @@ import 'log_in_manager.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({
-    Key key,
-    @required this.manager,
-    @required this.isLoading,
+    Key? key,
+    required this.manager,
+    required this.isLoading,
   }) : super(key: key);
   final LogInManager manager;
   final bool isLoading;

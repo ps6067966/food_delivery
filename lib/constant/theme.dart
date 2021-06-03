@@ -56,11 +56,11 @@ class FlutterFlowTheme {
 
 extension TextStyleHelper on TextStyle {
   TextStyle override(
-      {String fontFamily,
-        Color color,
-        double fontSize,
-        FontWeight fontWeight,
-        FontStyle fontStyle}) =>
+      {required String fontFamily,
+        Color? color,
+        double? fontSize,
+        FontWeight? fontWeight,
+        FontStyle? fontStyle}) =>
       GoogleFonts.getFont(
         fontFamily,
         color: color ?? this.color,

@@ -1,21 +1,37 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/constant/flutterflowwidget.dart';
 import 'package:food_delivery/constant/theme.dart';
 
+CollectionReference dishesRef = FirebaseFirestore.instance.collection('Dish');
+
 class Homescreen extends StatefulWidget {
   const Homescreen({
-    Key key,
-    @required this.textController,
+    Key? key,
+    required this.textController,
   }) : super(key: key);
 
-  final TextEditingController textController;
+  final TextEditingController? textController;
 
   @override
   _HomescreenState createState() => _HomescreenState();
 }
 
 class _HomescreenState extends State<Homescreen> {
+  @override
+  void initState() {
+    getDishes();
+    super.initState();
+  }
+
+  getDishes() {
+    dishesRef.get().then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        print(doc.data());
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -91,7 +107,7 @@ class _HomescreenState extends State<Homescreen> {
   }
 
   Padding greetingAndNotification() {
-    final user = FirebaseAuth.instance.currentUser;
+    //final user = FirebaseAuth.instance.currentUser!;
     return Padding(
       padding: EdgeInsets.fromLTRB(10, 20, 10, 0),
       child: Row(
@@ -101,7 +117,7 @@ class _HomescreenState extends State<Homescreen> {
           Padding(
             padding: EdgeInsets.fromLTRB(1, 1, 0, 0),
             child: Text(
-              'Hello ${user.displayName},',
+              'Hello name',
               style: FlutterFlowTheme.bodyText1.override(
                 fontFamily: 'Poppins',
                 color: FlutterFlowTheme.primaryColor,
@@ -181,155 +197,159 @@ class _HomescreenState extends State<Homescreen> {
 
   exploreFood(context) {
     bool isDishVeg = true;
-    return Padding(
-      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-      child: Container(
-        width: MediaQuery.of(context).size.width / 4,
-        height: 150,
-        decoration: BoxDecoration(
-          color: Color(0xFFEEEEEE),
-          borderRadius: BorderRadius.circular(20),
-          shape: BoxShape.rectangle,
-        ),
-        child: Card(
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          color: Color(0xFFF5F5F5),
-          elevation: 3,
-          shape: RoundedRectangleBorder(
+    return ListView.builder(
+      itemBuilder:(context,items) => Padding(
+        padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+        child: Container(
+          width: MediaQuery.of(context).size.width / 4,
+          height: 150,
+          decoration: BoxDecoration(
+            color: Color(0xFFEEEEEE),
             borderRadius: BorderRadius.circular(20),
+            shape: BoxShape.rectangle,
           ),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.network(
-                  'https://picsum.photos/seed/967/600',
-                  width: MediaQuery.of(context).size.width / 2.5,
-                  height: 140,
-                  fit: BoxFit.fill,
+          child: Card(
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            color: Color(0xFFF5F5F5),
+            elevation: 3,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.network(
+                    'https://picsum.photos/seed/967/600',
+                    width: MediaQuery.of(context).size.width / 2.5,
+                    height: 140,
+                    fit: BoxFit.fill,
+                  ),
                 ),
-              ),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                padding: EdgeInsets.only(left: 10),
-                                child: Text(
-                                  '[Dish Name]',
-                                  style: FlutterFlowTheme.bodyText1.override(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    '[Dish Name]',
+                                    style: FlutterFlowTheme.bodyText1.override(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              // SizedBox(width: x,),
-                              isDishVeg
-                                  ? Padding(
-                                      padding:
-                                          const EdgeInsets.only(right: 10.0),
-                                      child: Container(
-                                        width: 20,
-                                        height: 20,
-                                        child: Image(
-                                          image: AssetImage(
-                                              'assets/images/Veg.jpg'),
-                                          fit: BoxFit.scaleDown,
-                                          color: null,
-                                        ),
-                                      ),
-                                    )
-                                  : Text('NonVeg'),
-                            ],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                            child: Text(
-                              '[Food Description]',
-                              style: FlutterFlowTheme.bodyText1.override(
-                                fontFamily: 'Poppins',
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                            child: Text(
-                              '[Food Delivery Time] min',
-                              style: FlutterFlowTheme.bodyText1.override(
-                                fontFamily: 'Poppins',
-                                fontSize: 12,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10.0),
-                                child: Text(
-                                  '₹[FoodPrice]',
-                                  style: FlutterFlowTheme.bodyText1.override(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 13,
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 10.0),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.only(topLeft: Radius.circular(5), bottomLeft:Radius.circular(5) ),
-                                  child: Container(
-                                      color: Colors.grey,
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            width: 25,
-                                            height: 25,
-                                            decoration: BoxDecoration(
-                                              color: Color(0xFFFFB90B),
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                            ),
-                                            child: Icon(
-                                              Icons.add,
-                                              color: Colors.white,
-                                              size: 20,
-                                            ),
+                                // SizedBox(width: x,),
+                                isDishVeg
+                                    ? Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 10.0),
+                                        child: Container(
+                                          width: 20,
+                                          height: 20,
+                                          child: Image(
+                                            image: AssetImage(
+                                                'assets/images/Veg.jpg'),
+                                            fit: BoxFit.scaleDown,
+                                            color: null,
                                           ),
-                                          Container(
-                                            padding: EdgeInsets.only(
-                                                left: 4.0, top: 2),
-                                            height: 25,
-                                            width: 35,
-                                            color: Colors.grey,
-                                            child: Text('Add'),
-                                          )
-                                        ],
-                                      )),
+                                        ),
+                                      )
+                                    : Text('NonVeg'),
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                              child: Text(
+                                '[Food Description]',
+                                style: FlutterFlowTheme.bodyText1.override(
+                                  fontFamily: 'Poppins',
                                 ),
                               ),
-                            ],
-                          )
-                        ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                              child: Text(
+                                '[Food Delivery Time] min',
+                                style: FlutterFlowTheme.bodyText1.override(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10.0),
+                                  child: Text(
+                                    '₹[FoodPrice]',
+                                    style: FlutterFlowTheme.bodyText1.override(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 10.0),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(5),
+                                        bottomLeft: Radius.circular(5)),
+                                    child: Container(
+                                        color: Colors.grey,
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              width: 25,
+                                              height: 25,
+                                              decoration: BoxDecoration(
+                                                color: Color(0xFFFFB90B),
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                              ),
+                                              child: Icon(
+                                                Icons.add,
+                                                color: Colors.white,
+                                                size: 20,
+                                              ),
+                                            ),
+                                            Container(
+                                              padding: EdgeInsets.only(
+                                                  left: 4.0, top: 2),
+                                              height: 25,
+                                              width: 35,
+                                              color: Colors.grey,
+                                              child: Text('Add'),
+                                            )
+                                          ],
+                                        )),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

@@ -2,7 +2,7 @@ import 'package:food_delivery/constant/theme.dart';
 import 'package:flutter/material.dart';
 
 class MyBagOrder extends StatefulWidget {
-  MyBagOrder({Key key}) : super(key: key);
+  MyBagOrder({Key? key}) : super(key: key);
 
   @override
   _MyBagOrderState createState() => _MyBagOrderState();

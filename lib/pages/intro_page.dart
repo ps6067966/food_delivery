@@ -7,7 +7,7 @@ import 'login.dart';
 
 class IntroScreen extends StatefulWidget {
 
-  IntroScreen({Key key}) : super(key: key);
+  IntroScreen({Key? key}) : super(key: key);
 
   @override
   IntroScreenState createState() => new IntroScreenState();

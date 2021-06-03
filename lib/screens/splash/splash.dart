@@ -7,8 +7,8 @@ import '../../main.dart';
 
 class Splash extends StatelessWidget {
   const Splash({
-    Key key,
-    @required this.widget,
+    Key? key,
+    required this.widget,
   }) : super(key: key);
 
   final MyApp widget;

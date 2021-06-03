@@ -4,7 +4,7 @@ import 'package:food_delivery/constant/theme.dart';
 import 'home.dart';
 
 class FoodDelivery extends StatefulWidget {
-  FoodDelivery({Key key}) : super(key: key);
+  FoodDelivery({Key? key}) : super(key: key);
 
   @override
   _FoodDeliveryState createState() => _FoodDeliveryState();
@@ -12,7 +12,7 @@ class FoodDelivery extends StatefulWidget {
 
 class _FoodDeliveryState extends State<FoodDelivery> {
   int _currentIndex = 0;
-  TextEditingController textController;
+  TextEditingController? textController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class WhiteText extends StatelessWidget {
-  final String text;
+  final String? text;
   final TextAlign textAlign;
-  final double fontSize;
-  final FontWeight fontWeight;
+  final double? fontSize;
+  final FontWeight? fontWeight;
 
   const WhiteText(
-      {Key key,
+      {Key? key,
       this.text,
       this.fontSize,
       this.fontWeight,
@@ -16,7 +16,7 @@ class WhiteText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      text,
+      text!,
       textAlign: textAlign,
       style: TextStyle(
           color: Colors.white,
@@ -27,13 +27,13 @@ class WhiteText extends StatelessWidget {
 }
 
 class GreyText extends StatelessWidget {
-  final String text;
+  final String? text;
   final TextAlign textAlign;
-  final double fontSize;
-  final FontWeight fontWeight;
+  final double? fontSize;
+  final FontWeight? fontWeight;
 
   const GreyText(
-      {Key key,
+      {Key? key,
       this.text,
       this.fontSize,
       this.fontWeight,
@@ -42,7 +42,7 @@ class GreyText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      text,
+      text!,
       textAlign: textAlign,
       style: TextStyle(
           color: Colors.grey,
@@ -53,14 +53,14 @@ class GreyText extends StatelessWidget {
 }
 
 class BlackText extends StatelessWidget {
-  final String text;
+  final String? text;
   final TextAlign textAlign;
-  final double lineHeight;
-  final double fontSize;
-  final FontWeight fontWeight;
+  final double? lineHeight;
+  final double? fontSize;
+  final FontWeight? fontWeight;
 
   const BlackText(
-      {Key key,
+      {Key? key,
       this.text,
       this.lineHeight,
       this.fontSize,
@@ -70,7 +70,7 @@ class BlackText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      text,
+      text!,
       textAlign: textAlign,
       style: TextStyle(
           height: lineHeight,

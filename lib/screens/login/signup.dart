@@ -5,17 +5,17 @@ import '../../constant/flutterflowwidget.dart';
 import 'package:flutter/material.dart';
 
 class SignupPage extends StatefulWidget {
-  SignupPage({Key key}) : super(key: key);
+  SignupPage({Key? key}) : super(key: key);
 
   @override
   _SignupPageState createState() => _SignupPageState();
 }
 
 class _SignupPageState extends State<SignupPage> {
-  TextEditingController textController1;
-  TextEditingController textController2;
-  TextEditingController textController3;
-  bool checkboxListTileValue;
+  TextEditingController? textController1;
+  TextEditingController? textController2;
+  TextEditingController? textController3;
+  bool? checkboxListTileValue;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
