@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/constant/theme.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class CheckoutWidget extends StatefulWidget {
-  CheckoutWidget({Key key}) : super(key: key);
+  CheckoutWidget({Key? key}) : super(key: key);
 
   @override
   _CheckoutWidgetState createState() => _CheckoutWidgetState();
