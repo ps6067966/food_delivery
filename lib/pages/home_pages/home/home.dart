@@ -292,4 +292,161 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  exploreFood(context) {
+    bool isDishVeg = false;
+    return Padding(
+      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+      child: Container(
+        width: MediaQuery.of(context).size.width / 4,
+        height: 150,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          shape: BoxShape.rectangle,
+        ),
+        child: Card(
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          color: Colors.white,
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.network(
+                  'https://picsum.photos/seed/967/600',
+                  width: MediaQuery.of(context).size.width / 2.5,
+                  height: 140,
+                  fit: BoxFit.fill,
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(left: 10),
+                                child: Text(
+                                  '[Dish Name]',
+                                  style: CustomTheme.bodyText1.override(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              // SizedBox(width: x,),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 10.0),
+                                child: Container(
+                                  width: 20,
+                                  height: 20,
+                                  child: Image(
+                                    image: AssetImage(isDishVeg
+                                        ? 'assets/images/veg.jpg'
+                                        : 'assets/images/nonVeg.jpg'),
+                                    fit: BoxFit.scaleDown,
+                                    color: null,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                            child: Text(
+                              '[Food Description]',
+                              style: CustomTheme.bodyText1.override(
+                                fontFamily: 'Poppins',
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                            child: Text(
+                              '[Food Delivery Time] min',
+                              style: CustomTheme.bodyText1.override(
+                                fontFamily: 'Poppins',
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10.0),
+                                child: Text(
+                                  '₹[FoodPrice]',
+                                  style: CustomTheme.bodyText1.override(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 13,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 10.0),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(5),
+                                      bottomLeft: Radius.circular(5)),
+                                  child: Container(
+                                      color: Colors.white,
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            width: 25,
+                                            height: 25,
+                                            decoration: BoxDecoration(
+                                              color: Color(0xFFFFB90B),
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                            ),
+                                            child: Icon(
+                                              Icons.add,
+                                              color: Colors.white,
+                                              size: 20,
+                                            ),
+                                          ),
+                                          Container(
+                                            padding: EdgeInsets.only(
+                                                left: 4.0, top: 2),
+                                            height: 25,
+                                            width: 35,
+                                            color: Colors.white,
+                                            child: Text('Add'),
+                                          )
+                                        ],
+                                      )),
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

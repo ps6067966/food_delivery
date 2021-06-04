@@ -56,11 +56,11 @@ class CustomTheme {
 
 extension TextStyleHelper on TextStyle {
   TextStyle override(
-      {required String fontFamily,
-        Color? color,
-        double? fontSize,
-        FontWeight? fontWeight,
-        FontStyle? fontStyle}) =>
+      {String fontFamily,
+        Color color,
+        double fontSize,
+        FontWeight fontWeight,
+        FontStyle fontStyle}) =>
       GoogleFonts.getFont(
         fontFamily,
         color: color ?? this.color,

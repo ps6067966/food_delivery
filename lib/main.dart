@@ -1,22 +1,23 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:food_delivery/services/auth.dart';
-import 'package:provider/provider.dart';
+import 'package:food_delivery/pages/intro_page.dart';
+import 'package:food_delivery/pages/auth_pages/login.dart';
+import 'package:food_delivery/pages/home_pages/nav_bar_page.dart';
+import 'package:food_delivery/services/auth/firebase_user_provider.dart';
+import 'package:food_delivery/widgets/splash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'screens/home/fooddelivery.dart';
-
-//import 'screens/splash/splash.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) async {
     WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
     var prefs = await SharedPreferences.getInstance();
     var boolKey = 'isFirstTime';
     var isFirstTime = prefs.getBool(boolKey) ?? true;
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
     runApp(new MyApp(
       isFirstTime: isFirstTime,
     ));
@@ -26,67 +27,47 @@ void main() {
 class MyApp extends StatefulWidget {
   final bool isFirstTime;
 
-  const MyApp({Key? key, required this.isFirstTime}) : super(key: key);
+  const MyApp({Key key, @required this.isFirstTime}) : super(key: key);
 
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  bool _initialized = false;
-  bool _error = false;
-
-  void initializeFlutterFire() async {
-    try {
-      await Firebase.initializeApp();
-      setState(() => _initialized = true);
-    } catch (e) {
-      setState(() => _error = true);
-    }
-  }
+  Stream<FirebaseUser> userStream;
+  FirebaseUser initialUser;
 
   @override
   void initState() {
-    initializeFlutterFire();
     super.initState();
+    userStream = firebaseUserStream()
+      ..listen((user) => initialUser ?? setState(() => initialUser = user));
   }
 
   @override
   Widget build(BuildContext context) {
-    // Show error message if initialization failed
-    if (_error) {
-      return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-          body: Center(
-            child: Text(" Cant initialize the firebase"),
-          ),
-        ),
-      );
-    }
-
-    // Show a loader until FlutterFire is initialized
-    if (!_initialized) {
-      return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-          body: Center(
-            child: CircularProgressIndicator(),
-          ),
-        ),
-      );
-    }
-
-    return Provider<AuthBase>(
-      create: (context) => Auth(),
-      child: MaterialApp(
-        title: 'Food Delivery',
-        theme: ThemeData(primarySwatch: Colors.orange),
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-          body:  FoodDelivery(),  //Splash(widget: widget),
-        ),
+    return MaterialApp(
+      title: 'Food Delivery',
+      theme: ThemeData(
+        primarySwatch: Colors.orange,
+        unselectedWidgetColor: Color(0x00FFB90B),
       ),
+      debugShowCheckedModeBanner: false,
+      home: initialUser == null
+          ? Scaffold(
+              backgroundColor: const Color(0xffffb90b),
+            )
+          : Splash(
+              widget: widget.isFirstTime
+                  ? IntroScreen()
+                  : currentUser.loggedIn
+                      ? NavBarPage()
+                      : LoginScreen()),
     );
   }
 }
+
+/// Page 1 main_page
+/// Page 2-4 intro_page
+/// Page 5&6 login_page and signup page
+/// Page 7 nav_bar_page

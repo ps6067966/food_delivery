@@ -1,26 +1,18 @@
-import 'package:food_delivery/constant/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery/constant/theme.dart';
 
-class MyBag extends StatefulWidget {
-  MyBag({Key? key}) : super(key: key);
-
-  @override
-  _MyBagState createState() => _MyBagState();
-}
-
-class _MyBagState extends State<MyBag> {
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+class EmptyBag extends StatelessWidget {
+  EmptyBag({Key key, @required this.onPressed}) : super(key: key);
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
       body: SafeArea(
         child: Container(
           width: double.infinity,
-          height: 100,
           decoration: BoxDecoration(
-            color: Color(0x00EEEEEE),
+            color: Colors.white,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -32,10 +24,10 @@ class _MyBagState extends State<MyBag> {
                   width: 200,
                   height: 200,
                   decoration: BoxDecoration(
-                    color: Color(0x00EEEEEE),
+                    color: Colors.white,
                   ),
                   child: Image.asset(
-                    'assets/images/undraw_barbecue_3x93 1.svg',
+                    'assets/images/undraw_barbecue_3x93 1.png',
                     width: 100,
                     height: 100,
                     fit: BoxFit.cover,
@@ -46,7 +38,7 @@ class _MyBagState extends State<MyBag> {
                 padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
                 child: Text(
                   'Your Food Cart is Empty!',
-                  style: FlutterFlowTheme.bodyText1.override(
+                  style: CustomTheme.bodyText1.override(
                     fontFamily: 'Poppins',
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -58,7 +50,7 @@ class _MyBagState extends State<MyBag> {
                 child: Text(
                   'Add something in your bag\nto checkout',
                   textAlign: TextAlign.center,
-                  style: FlutterFlowTheme.bodyText1.override(
+                  style: CustomTheme.bodyText1.override(
                     fontFamily: 'Poppins',
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
@@ -67,26 +59,18 @@ class _MyBagState extends State<MyBag> {
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
-                child: Container(
-                  width: 170,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: Color(0xFFFFDC00),
-                    ),
+                child: OutlinedButton(
+                  onPressed: onPressed,
+                  style: ButtonStyle(
+                    side: MaterialStateProperty.all(
+                        BorderSide(color: CustomTheme.primaryColor)),
                   ),
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
                     child: Text(
-                      'Explore Items',
-                      textAlign: TextAlign.center,
-                      style: FlutterFlowTheme.bodyText1.override(
-                        fontFamily: 'Poppins',
-                        color: Color(0xFFFFDC00),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      "Explore items",
+                      style: TextStyle(
+                          color: CustomTheme.primaryColor, fontSize: 16.0),
                     ),
                   ),
                 ),
