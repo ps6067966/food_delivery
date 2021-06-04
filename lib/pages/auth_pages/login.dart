@@ -315,7 +315,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               (r) => false,
                             );
                           },
-                          color: Colors.red[800],
+                          color: Color.fromRGBO(219, 68, 55, 1),
                         ),
                       ],
                     ),
