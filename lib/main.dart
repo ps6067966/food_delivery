@@ -55,14 +55,14 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       home: initialUser == null
           ? Scaffold(
-              backgroundColor: const Color(0xffffb90b),
-            )
+        backgroundColor: const Color(0xffffb90b),
+      )
           : Splash(
-              widget: widget.isFirstTime
-                  ? IntroScreen()
-                  : currentUser.loggedIn
-                      ? NavBarPage()
-                      : LoginScreen()),
+          widget: widget.isFirstTime
+              ? IntroScreen()
+              : currentUser.loggedIn
+              ? NavBarPage()
+              : LoginScreen()),
     );
   }
 }
