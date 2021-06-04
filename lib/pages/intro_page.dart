@@ -3,7 +3,7 @@ import 'package:food_delivery/constant/theme.dart';
 import 'package:intro_slider/intro_slider.dart';
 import 'package:intro_slider/slide_object.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'login.dart';
+import 'auth_pages/login.dart';
 
 class IntroScreen extends StatefulWidget {
 
@@ -28,9 +28,10 @@ class IntroScreenState extends State<IntroScreen> {
             Padding(
               padding: EdgeInsets.fromLTRB(10, 10, 10, 15),
               child: Text(
-                'Explore from variety of\nItems',
+                'Explore from variety'
+                    '\n of Items',
                 textAlign: TextAlign.center,
-                style: FlutterFlowTheme.title1.override(
+                style: CustomTheme.title1.override(
                   fontFamily: 'Poppins',
                   fontSize: 28,
                   fontWeight: FontWeight.w500,
@@ -44,7 +45,7 @@ class IntroScreenState extends State<IntroScreen> {
                 'typesetting industry. Lorem Ipsum has been the '
                 'industry\'s standard dummy text .',
                 textAlign: TextAlign.center,
-                style: FlutterFlowTheme.subtitle2.override(
+                style: CustomTheme.subtitle2.override(
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w300,
                 ),
@@ -75,7 +76,7 @@ class IntroScreenState extends State<IntroScreen> {
               child: Text(
                 'Track location of\n Delivery',
                 textAlign: TextAlign.center,
-                style: FlutterFlowTheme.title1.override(
+                style: CustomTheme.title1.override(
                   fontFamily: 'Poppins',
                   fontSize: 28,
                   fontWeight: FontWeight.w500,
@@ -89,7 +90,7 @@ class IntroScreenState extends State<IntroScreen> {
                 'typesetting industry. Lorem Ipsum has been the '
                 'industry\'s standard dummy text .',
                 textAlign: TextAlign.center,
-                style: FlutterFlowTheme.subtitle2.override(
+                style: CustomTheme.subtitle2.override(
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w300,
                 ),
@@ -120,7 +121,7 @@ class IntroScreenState extends State<IntroScreen> {
               child: Text(
                 'Fast Guaranteed\nDelivery',
                 textAlign: TextAlign.center,
-                style: FlutterFlowTheme.title1.override(
+                style: CustomTheme.title1.override(
                   fontFamily: 'Poppins',
                   fontSize: 28,
                   fontWeight: FontWeight.w500,
@@ -134,7 +135,7 @@ class IntroScreenState extends State<IntroScreen> {
                 'typesetting industry. Lorem Ipsum has been the '
                 'industry\'s standard dummy text .',
                 textAlign: TextAlign.center,
-                style: FlutterFlowTheme.subtitle2.override(
+                style: CustomTheme.subtitle2.override(
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w300,
                 ),
@@ -165,7 +166,7 @@ class IntroScreenState extends State<IntroScreen> {
     await Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
-        builder: (context) => LoginScreen.create(context),
+        builder: (context) => LoginScreen(),
       ),
       (r) => false,
     );
@@ -178,7 +179,7 @@ class IntroScreenState extends State<IntroScreen> {
       children: [
         Text(
           "Next",
-          style: FlutterFlowTheme.subtitle1.override(
+          style: CustomTheme.subtitle1.override(
               fontFamily: 'Poppins',
               color: Colors.black,
               fontSize: 20,
@@ -195,7 +196,7 @@ class IntroScreenState extends State<IntroScreen> {
   Widget renderDoneBtn() {
     return Text(
       "Login",
-      style: FlutterFlowTheme.subtitle1.override(
+      style: CustomTheme.subtitle1.override(
           fontFamily: 'Poppins',
           color: const Color(0xffffb90b),
           fontSize: 20,
@@ -206,7 +207,7 @@ class IntroScreenState extends State<IntroScreen> {
   Widget renderSkipBtn() {
     return Text(
       "Skip",
-      style: FlutterFlowTheme.subtitle1.override(
+      style: CustomTheme.subtitle1.override(
           fontFamily: 'Poppins',
           color: const Color(0xffffb90b),
           fontSize: 20,
