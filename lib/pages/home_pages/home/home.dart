@@ -88,20 +88,17 @@ class _HomePageState extends State<HomePage> {
                   if (!snapshot.hasData) {
                     return CircularProgressIndicator();
                   } else {
-                    final children =
-                        snapshot.data.docs.map<Widget>((doc) {
+                    final children = snapshot.data.docs.map<Widget>((doc) {
                       return Food(
-                          foodUrl:
-                              doc['dishPhotoUrl'],
-                          dishName:  doc['dishName'],
-                          foodDescription:
-                              doc['dishIngredients'],
-                          foodDeliveryTime: doc['deliveryTime'],
-                          foodPrice: doc['dishPrice'],
-                          isDishVeg: doc['isVeg'],
-                          onAddPressed: () {},
-                        );
-                      
+                        foodUrl: doc['dishPhotoUrl'],
+                        dishName: doc['dishName'],
+                        foodDescription: doc['dishIngredients'],
+                        foodDeliveryTime: doc['deliveryTime'],
+                        foodPrice: doc['dishPrice'],
+                        isDishVeg: doc['isVeg'],
+                        onAddPressed: () {
+                        },
+                      );
                     }).toList();
                     return ListBody(
                       children: children,
@@ -115,7 +112,6 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
   Padding greetingAndNotification() {
     final user = currentUserDisplayName;
     return Padding(
