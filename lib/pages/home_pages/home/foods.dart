@@ -47,7 +47,7 @@ class Food extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
       child: Container(
         width: MediaQuery.of(context).size.width / 4,
-        height: 150,
+        height: 170,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),

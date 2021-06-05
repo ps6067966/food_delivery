@@ -139,6 +139,10 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
+            IconButton( 
+              onPressed: (){},
+              icon: Icon(Icons.notification_add_outlined),
+            ),
           ],
         ),
       ),

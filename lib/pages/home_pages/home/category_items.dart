@@ -32,7 +32,7 @@ class CategoryItem extends StatelessWidget {
             style: CustomTheme.bodyText1.override(
               fontFamily: 'Poppins',
               color: Color(0xCB000000),
-              fontSize: 20,
+              fontSize: 18,
             ),
           )
         ],
