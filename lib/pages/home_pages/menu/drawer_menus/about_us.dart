@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:food_delivery/constant/theme.dart';
 
@@ -139,7 +141,8 @@ class AboutUs extends StatelessWidget {
                         child: Text(
                           'Photos'.toUpperCase(),
                           style: TextStyle(
-                            color: Colors.white,
+                            color: CustomTheme.secondaryColor,
+                            // color: Colors.white,
                             fontFamily: 'Poppin',
                             fontSize: 16
                           ),
@@ -147,7 +150,12 @@ class AboutUs extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         color: CustomTheme.primaryColor,
-                        // image: NetworkImage(''), // Image url needed. and backend integration except that everything is done.
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            'https://images.unsplash.com/photo-1517870662726-c1d98ee36250?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjM2fHxmb29kJTIwcGxhdGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+                          ),
+                          fit: BoxFit.cover
+                        ),
                         borderRadius: BorderRadius.circular(8)
                       ),
                     )
