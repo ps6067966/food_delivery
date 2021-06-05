@@ -50,8 +50,8 @@ String get currentUserUid => currentUser?.user?.uid ?? '';
 
 String get currentUserDisplayName => currentUser?.user?.displayName ?? '';
 
-String get currentUserPhoto => currentUser?.user?.photoURL
-    ?? 'https://i.stack.imgur.com/34AD2.jpg';
+String get currentUserPhoto =>
+    currentUser?.user?.photoURL ?? 'https://i.stack.imgur.com/34AD2.jpg';
 
 DocumentReference get currentUserReference => currentUser?.user != null
     ? UsersRecord.collection.doc(currentUser.user.uid)
