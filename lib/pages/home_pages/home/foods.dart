@@ -5,7 +5,7 @@ import 'package:food_delivery/constant/theme.dart';
 import 'food_details.dart';
 
 class Food extends StatelessWidget {
-  const Food(
+   Food(
       {Key key,
       this.foodUrl = 'https://picsum.photos/seed/967/600',
       @required this.dishName,
@@ -20,8 +20,8 @@ class Food extends StatelessWidget {
   final String foodUrl;
   final String dishName;
   final String foodDescription;
-  final String foodDeliveryTime;
-  final String foodPrice;
+  final int foodDeliveryTime;
+  final int foodPrice;
   final bool isDishVeg;
   final VoidCallback onAddPressed;
   final VoidCallback onImgPressed;
@@ -47,7 +47,7 @@ class Food extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
       child: Container(
         width: MediaQuery.of(context).size.width / 4,
-        height: 170,
+        height: 200,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
@@ -65,8 +65,8 @@ class Food extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                   child: Image.network(
                     foodUrl,
-                    width: MediaQuery.of(context).size.width / 2.5,
-                    height: 140,
+                    width: MediaQuery.of(context).size.width / 2.7,
+                    height: 175,
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -85,22 +85,21 @@ class Food extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                              padding: EdgeInsets.only(left: 10),
+                              padding: EdgeInsets.only(left: 10, top: 10),
                               child: Text(
                                 dishName,
                                 maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
+                                overflow: TextOverflow.visible,
                                 style: CustomTheme.bodyText1.override(
                                   color: Colors.black,
                                   fontFamily: 'Poppins',
-                                  fontSize: 15,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
-                            Spacer(),
                             Padding(
-                              padding: const EdgeInsets.only(right: 10.0),
+                              padding: const EdgeInsets.only(right: 10.0, top: 10),
                               child: Container(
                                 width: 20,
                                 height: 20,
@@ -128,14 +127,13 @@ class Food extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.fromLTRB(10, 4, 0, 0),
                           child: Text(
-                            foodDeliveryTime,
+                            '$foodDeliveryTime min',
                             style: CustomTheme.bodyText1.override(
                               fontFamily: 'Poppins',
-                              fontSize: 12,
+                              fontSize: 13,
                             ),
                           ),
                         ),
-                        Spacer(),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -151,7 +149,6 @@ class Food extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Spacer(),
                             TextButton.icon(
                               style: TextButton.styleFrom(
                                 padding: EdgeInsets.all(0),

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/constant/theme.dart';
 import 'package:food_delivery/pages/home_pages/home/category_items.dart';
@@ -7,6 +8,9 @@ import 'package:food_delivery/services/auth/auth_util.dart';
 import 'package:food_delivery/widgets/custom_text_field.dart';
 
 import 'foods.dart';
+
+final CollectionReference dishesRef =
+    FirebaseFirestore.instance.collection('Dish');
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -23,11 +27,20 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   TextEditingController searchTextController;
   String name;
+  List<dynamic> dishes = [];
 
   @override
   void initState() {
+    getDishes();
     super.initState();
     searchTextController = TextEditingController();
+  }
+
+  getDishes() async {
+    final QuerySnapshot dishesSnapshot = await dishesRef.get();
+    setState(() {
+      dishes = dishesSnapshot.docs;
+    });
   }
 
   @override
@@ -35,83 +48,69 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: ListView(
-          padding: EdgeInsets.zero,
-          shrinkWrap: true,
-          scrollDirection: Axis.vertical,
-          children: [
-            Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                greetingAndNotification(),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                  child: Text(
-                    'Find your desired dish',
-                    style: CustomTheme.bodyText1.override(
-                      fontFamily: 'Poppins',
-                      color: Color(0xFF9E9E9E),
-                      fontSize: 25,
-                    ),
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              greetingAndNotification(),
+              Padding(
+                padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                child: Text(
+                  'Find your desired dish',
+                  style: CustomTheme.bodyText1.override(
+                    fontFamily: 'Poppins',
+                    color: Color(0xFF9E9E9E),
+                    fontSize: 25,
                   ),
                 ),
-                searchDish(),
-                userLocation(),
-                foodTypes(context),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                  child: HomeHeading(headText: "Category"),
-                )
-              ],
-            ),
-            fastFood(),
-            Padding(
-              padding: EdgeInsets.fromLTRB(20, 20, 10, 0),
-              child: HomeHeading(headText: "Our Restaurant"),
-            ),
-            restaurantsDetailCard(),
-            Padding(
-              padding: EdgeInsets.fromLTRB(20, 20, 10, 0),
-              child: HomeHeading(headText: "Explore"),
-            ),
-            Food(
-              foodUrl: 'https://images.unsplash.com/photo-1594007654729-407eedc4be65?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=369&q=80',
-              dishName: "Italian Pizza",
-              foodDescription: "Tomato,cheese,capsicum,jalepano,olive",
-              foodDeliveryTime: "28 min",
-              foodPrice: "250",
-              isDishVeg: false,
-              onAddPressed: (){},
-            ),
-            Food(
-              foodUrl: 'https://miro.medium.com/max/5120/1*Zu0W7CSU8wzDYjC_LinO5w.jpeg',
-              dishName: "Masal Dosa",
-              foodDescription: "Tomato,cheese,capsicum,jalepano,olive",
-              foodDeliveryTime: "28 min",
-              foodPrice: "200",
-              isDishVeg: true,
-              onAddPressed: (){},
-            ),
-            Food(
-              foodUrl: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=819&q=80',
-              dishName: "Paneer Tikka",
-              foodDescription: "Tomato,cheese,capsicum,jalepano,olive",
-              foodDeliveryTime: "28 min",
-              foodPrice: "350",
-              isDishVeg: true,
-              onAddPressed: (){},
-            ),
-            Food(
-              foodUrl: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=752&q=80',
-              dishName: "Chicken Biryani",
-              foodDescription: "Tomato,cheese,capsicum,jalepano,olive",
-              foodDeliveryTime: "18 min",
-              foodPrice: "250",
-              isDishVeg: false,
-              onAddPressed: (){},
-            ),
-          ],
+              ),
+              searchDish(),
+              userLocation(),
+              foodTypes(context),
+              Padding(
+                padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                child: HomeHeading(headText: "Category"),
+              ),
+              fastFood(),
+              Padding(
+                padding: EdgeInsets.fromLTRB(20, 20, 10, 0),
+                child: HomeHeading(headText: "Our Restaurant"),
+              ),
+              restaurantsDetailCard(),
+              Padding(
+                padding: EdgeInsets.fromLTRB(20, 20, 10, 0),
+                child: HomeHeading(headText: "Explore"),
+              ),
+              StreamBuilder(
+                stream: dishesRef.snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return CircularProgressIndicator();
+                  } else {
+                    final children =
+                        snapshot.data.docs.map<Widget>((doc) {
+                      return Food(
+                          foodUrl:
+                              doc['dishPhotoUrl'],
+                          dishName:  doc['dishName'],
+                          foodDescription:
+                              doc['dishIngredients'],
+                          foodDeliveryTime: doc['deliveryTime'],
+                          foodPrice: doc['dishPrice'],
+                          isDishVeg: doc['isVeg'],
+                          onAddPressed: () {},
+                        );
+                      
+                    }).toList();
+                    return ListBody(
+                      children: children,
+                    );
+                  }
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -121,30 +120,29 @@ class _HomePageState extends State<HomePage> {
     final user = currentUserDisplayName;
     return Padding(
       padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(1, 1, 0, 0),
-              child: Text(
-                'Hello $user,',
-                style: CustomTheme.bodyText1.override(
-                  fontFamily: 'Poppins',
-                  color: CustomTheme.primaryColor,
-                  fontSize: 30,
-                  fontWeight: FontWeight.w600,
-                ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Padding(
+            padding: EdgeInsets.fromLTRB(1, 1, 0, 0),
+            child: Text(
+              'Hello $user,',
+              style: CustomTheme.bodyText1.override(
+                fontFamily: 'Poppins',
+                color: CustomTheme.primaryColor,
+                fontSize: 30,
+                fontWeight: FontWeight.w600,
               ),
             ),
-            IconButton( 
-              onPressed: (){},
-              icon: Icon(Icons.notification_add_outlined),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.notifications_outlined,
+              size: 38,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -223,16 +221,12 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  GridView fastFood() {
-    return GridView(
-      padding: EdgeInsets.zero,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        childAspectRatio: 2.1 / 2.5,
-      ),
-      primary: false,
+  fastFood() {
+    return GridView.count(
+      crossAxisCount: 3,
+      childAspectRatio: 2.1 / 2.5,
+      physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      scrollDirection: Axis.vertical,
       children: [
         CategoryItem(
             url:
@@ -271,7 +265,7 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
             child: Container(
-              width: MediaQuery.of(context).size.width*0.95,
+              width: MediaQuery.of(context).size.width * 0.95,
               height: 130,
               child: Card(
                 clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -283,7 +277,7 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
             child: Container(
-              width: MediaQuery.of(context).size.width*0.95,
+              width: MediaQuery.of(context).size.width * 0.95,
               height: 130,
               child: Card(
                 clipBehavior: Clip.antiAliasWithSaveLayer,

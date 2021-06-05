@@ -3,27 +3,32 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:food_delivery/constant/theme.dart';
 import 'package:food_delivery/widgets/custom_button.dart';
 
-class FoodDetailPage extends StatelessWidget {
+class FoodDetailPage extends StatefulWidget {
   final String name;
   final String url;
   final String foodDescription;
-  final String foodDeliveryTime;
-  final String foodPrice;
+  final int foodDeliveryTime;
+  final int foodPrice;
   final bool isDishVeg;
   final VoidCallback onAddPressed;
   final VoidCallback onImgPressed;
 
-  const FoodDetailPage(
+  FoodDetailPage(
       {this.name,
       this.url =
           "https://images.unsplash.com/photo-1594007654729-407eedc4be65?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=369&q=80",
       this.foodDescription = "foodDescription",
-      this.foodDeliveryTime = "0 min",
-      this.foodPrice = "100",
+      this.foodDeliveryTime = 0,
+      this.foodPrice = 0,
       this.isDishVeg = false,
       this.onAddPressed,
       this.onImgPressed});
+  @override
+  _FoodDetailPageState createState() => _FoodDetailPageState();
+}
 
+class _FoodDetailPageState extends State<FoodDetailPage> {
+  int foodPrice = 200;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,12 +37,12 @@ class FoodDetailPage extends StatelessWidget {
           Align(
             alignment: Alignment.topLeft,
             child: Container(
-              height: 300,
+              height: 320,
               width: MediaQuery.of(context).size.width,
               child: Hero(
-                tag: name,
+                tag: widget.name,
                 child: Image.network(
-                  url,
+                  widget.url,
                   fit: BoxFit.fill,
                 ),
               ),
@@ -81,7 +86,6 @@ class FoodDetailPage extends StatelessWidget {
                 padding: const EdgeInsets.all(16.0),
                 child: Container(
                   width: MediaQuery.of(context).size.width,
-                  height: 150,
                   decoration: BoxDecoration(
                     color: Colors.transparent,
                     borderRadius: BorderRadius.circular(20),
@@ -108,26 +112,25 @@ class FoodDetailPage extends StatelessWidget {
                                       Container(
                                         padding: EdgeInsets.only(left: 10),
                                         child: Text(
-                                          name,
+                                          widget.name,
                                           maxLines: 3,
                                           overflow: TextOverflow.ellipsis,
                                           style: CustomTheme.bodyText1.override(
                                             color: Colors.black,
                                             fontFamily: 'Poppins',
-                                            fontSize: 24,
+                                            fontSize: 21,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                       ),
-                                      Spacer(),
                                       Padding(
                                         padding:
                                             const EdgeInsets.only(right: 10.0),
                                         child: Container(
-                                          width: 20,
-                                          height: 20,
+                                          width: 25,
+                                          height: 25,
                                           child: Image(
-                                            image: AssetImage(isDishVeg
+                                            image: AssetImage(widget.isDishVeg
                                                 ? 'assets/images/veg.jpg'
                                                 : 'assets/images/nonVeg.jpg'),
                                             fit: BoxFit.scaleDown,
@@ -140,10 +143,10 @@ class FoodDetailPage extends StatelessWidget {
                                   Padding(
                                     padding: const EdgeInsets.only(left: 10.0),
                                     child: Text(
-                                      '₹ $foodPrice',
+                                      '₹ ${widget.foodPrice}',
                                       style: CustomTheme.bodyText1.override(
                                           fontFamily: 'Poppins',
-                                          fontSize: 22,
+                                          fontSize: 19,
                                           color: Colors.black,
                                           fontWeight: FontWeight.normal),
                                     ),
@@ -160,9 +163,9 @@ class FoodDetailPage extends StatelessWidget {
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.fromLTRB(10, 4, 0, 0),
+                                    padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                                     child: Text(
-                                      foodDescription,
+                                      widget.foodDescription,
                                       maxLines: 3,
                                       style: CustomTheme.bodyText1.override(
                                           fontFamily: 'Poppins', fontSize: 14),
@@ -182,7 +185,7 @@ class FoodDetailPage extends StatelessWidget {
                                   Padding(
                                     padding: EdgeInsets.fromLTRB(10, 4, 0, 0),
                                     child: Text(
-                                      foodDeliveryTime,
+                                      '${widget.foodDeliveryTime} min',
                                       style: CustomTheme.bodyText1.override(
                                         fontFamily: 'Poppins',
                                         fontSize: 14,
@@ -212,13 +215,25 @@ class FoodDetailPage extends StatelessWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        IconButton(
-                                          icon: Icon(
-                                            Icons.add_box,
-                                            color: CustomTheme.primaryColor,
-                                            size: 40,
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              foodPrice = 2 * widget.foodPrice;
+                                            });
+                                          },
+                                          child: IconButton(
+                                            icon: Icon(
+                                              Icons.add_box,
+                                              color: CustomTheme.primaryColor,
+                                              size: 40,
+                                            ),
+                                            onPressed: () {
+                                              setState(() {
+                                                foodPrice = foodPrice * 2;
+                                              });
+                                              print(foodPrice);
+                                            },
                                           ),
-                                          onPressed: () {},
                                         ),
                                         Container(
                                           color: Color(0xFFE8E8E8),
@@ -229,7 +244,7 @@ class FoodDetailPage extends StatelessWidget {
                                               -6.0, 13.0, 0.0),
                                           child: Center(
                                             child: Text(
-                                              "₹  $foodPrice ",
+                                              "₹  $foodPrice",
                                               style: TextStyle(
                                                   color: Colors.black),
                                             ),
@@ -244,7 +259,12 @@ class FoodDetailPage extends StatelessWidget {
                                               color: CustomTheme.primaryColor,
                                               size: 40,
                                             ),
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              setState(() {
+                                                foodPrice =
+                                                    (foodPrice / 2).round();
+                                              });
+                                            },
                                           ),
                                         ),
                                       ],
