@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/constant/theme.dart';
+import 'package:food_delivery/services/auth/auth_util.dart';
 
 class MyAccount extends StatelessWidget {
   const MyAccount({Key key}) : super(key: key);
@@ -35,7 +36,7 @@ class MyAccount extends StatelessWidget {
                         color: CustomTheme.primaryColor,
                         image: DecorationImage(
                           image: NetworkImage(
-                            'https://images.unsplash.com/photo-1474978528675-4a50a4508dc3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+                           currentUserPhoto,
                           ),
                           fit: BoxFit.cover,
                         ),
@@ -52,7 +53,7 @@ class MyAccount extends StatelessWidget {
             height: 15,
           ),
           Text(
-            'Kenee Patel',
+            currentUserDisplayName,
             style: CustomTheme.title1.override(
               fontFamily: 'Poppins',
               fontSize: 20
