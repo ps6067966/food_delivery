@@ -26,6 +26,17 @@ class MyAccount extends StatelessWidget {
                   fit: BoxFit.fill,
                 ),
                 Positioned(
+                  top: 30,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.arrow_back_ios_new_rounded,
+                      size: 30,
+                      color: Colors.white,
+                    ),
+                    onPressed: () => {Navigator.pop(context)},
+                  )
+                ),
+                Positioned(
                   bottom: 0,
                   left: width / 2 - 75,
                   child: Container(
@@ -50,7 +61,7 @@ class MyAccount extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 15,
+            height: 12,
           ),
           Text(
             currentUserDisplayName,
@@ -59,6 +70,100 @@ class MyAccount extends StatelessWidget {
               fontSize: 20
             )
           ),
+          SizedBox(
+            height: 25,
+          ),
+          Container(
+            width: width/1.2,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Divider(color: Colors.blueGrey[200]),
+                ListTile(
+                  visualDensity: VisualDensity.comfortable,
+                  title: Text(
+                    'Contact Details',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
+                      fontSize: 20
+                    ),
+                  ),
+                  subtitle: Text(
+                    currentUserEmail + '\n(+91)1234567890',
+                    style: CustomTheme.subtitle2.override(
+                      fontFamily: 'Poppins',
+                      fontSize: 12
+                    ),
+                  ),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 20,
+                    color: Colors.black,
+                  ),
+                ),
+                Divider(color: Colors.blueGrey[200]),
+                ListTile(
+                  visualDensity: VisualDensity.comfortable,
+                  title: Text(
+                    'Address',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
+                      fontSize: 20
+                    ),
+                  ),
+                  subtitle: Text(
+                    'DIPNI DEPARTMENT, DTC Colony, Pitam Pura, Delhi, 110034',
+                    style: CustomTheme.subtitle2.override(
+                      fontFamily: 'Poppins',
+                      fontSize: 12
+                    ),
+                  ),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 20,
+                    color: Colors.black,
+                  ),
+                ),
+                Divider(color: Colors.blueGrey[200]),
+                ListTile(
+                  visualDensity: VisualDensity.comfortable,
+                  title: Text(
+                    'Payments and Refunds',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
+                      fontSize: 20
+                    ),
+                  ),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 20,
+                    color: Colors.black,
+                  ),
+                ),
+                Divider(color: Colors.blueGrey[200]),
+                ListTile(
+                  visualDensity: VisualDensity.comfortable,
+                  title: Text(
+                    'Reviews and Photos',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
+                      fontSize: 20
+                    ),
+                  ),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 20,
+                    color: Colors.black,
+                  ),
+                ),
+                Divider(color: Colors.blueGrey[200]),
+              ],
+            ),
+          )
         ],
       ),
     );
