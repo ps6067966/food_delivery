@@ -119,15 +119,17 @@ class _HomePageState extends State<HomePage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(1, 1, 0, 0),
-            child: Text(
-              'Hello $user,',
-              style: CustomTheme.bodyText1.override(
-                fontFamily: 'Poppins',
-                color: CustomTheme.primaryColor,
-                fontSize: 30,
-                fontWeight: FontWeight.w600,
+          Flexible(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(1, 1, 0, 0),
+              child: Text(
+                'Hello $user',
+                style: CustomTheme.bodyText1.override(
+                  fontFamily: 'Poppins',
+                  color: CustomTheme.primaryColor,
+                  fontSize: 25,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ),
@@ -135,7 +137,7 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {},
             icon: Icon(
               Icons.notifications_outlined,
-              size: 38,
+              size: 35,
             ),
           ),
         ],
