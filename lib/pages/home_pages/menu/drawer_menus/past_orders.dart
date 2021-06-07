@@ -33,41 +33,43 @@ class PastOrders extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection("users")
-            .doc(userUid)
-            .collection("orders")
-            .snapshots(),
-        builder: (c, snapshot) {
-          return snapshot.hasData
-              ? ListView.builder(
-                  itemCount: snapshot.data.docs.length,
-                  itemBuilder: (c, index) {
-                    return FutureBuilder<QuerySnapshot>(
-                      future: FirebaseFirestore.instance
-                          .collection("Dish")
-                          .where("dishName",
-                              whereIn: snapshot.data.docs[index].get("Dishes"))
-                          .get(),
-                      builder: (c, snap) {
-                        return snap.hasData
-                            ? orderCard(
-                                itemCount: snap.data.docs.length,
-                                data: snap.data.docs,
-                                orderId: snapshot.data.docs[index].id,
-                              )
-                            : Center(
-                                child: circularProgress(),
-                              );
-                      },
-                    );
-                  },
-                )
-              : Center(
-                  child: circularProgress(),
-                );
-        },
+      body: Padding(
+        padding: EdgeInsets.only(top: 20.0),
+        child: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection("users")
+              .doc(userUid)
+              .collection("orders")
+              .snapshots(),
+          builder: (c, snapshot) {
+            return snapshot.hasData
+                ? ListView.builder(
+                    itemCount: snapshot.data.docs.length,
+                    itemBuilder: (c, index) {
+                      return FutureBuilder<QuerySnapshot>(
+                        future: FirebaseFirestore.instance
+                            .collection("Dish")
+                            .where("dishName",
+                                whereIn:
+                                    snapshot.data.docs[index].get("Dishes"))
+                            .get(),
+                        builder: (c, snap) {
+                          return snap.hasData
+                              ? orderCard(
+                                  itemCount: snap.data.docs.length,
+                                  data: snap.data.docs,
+                                  orderId: snapshot.data.docs[index].id,
+                                )
+                              : Center();
+                        },
+                      );
+                    },
+                  )
+                : Center(
+                    child: circularProgress(),
+                  );
+          },
+        ),
       ),
     );
   }
