@@ -20,7 +20,7 @@ class MenuPage extends StatelessWidget {
         backgroundColor: Color(0xFF141D3E),
         body: Container(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(20.0,10,10,10),
+            padding: const EdgeInsets.fromLTRB(30.0, 0, 10, 160),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,30 +28,33 @@ class MenuPage extends StatelessWidget {
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(0.0,0.0,10.0,30.0),
+                    padding: const EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 30.0),
                     child: Row(
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: CircleAvatar(
                             radius: 35,
-                            backgroundImage:
-                            NetworkImage(photo),
+                            backgroundImage: NetworkImage(photo),
                             backgroundColor: Colors.transparent,
                           ),
                         ),
-                        SizedBox(width: 5.0,),
+                        SizedBox(
+                          width: 5.0,
+                        ),
                         Column(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               "$name",
-                              style: TextStyle(fontSize: 20.0,color: Colors.white),
+                              style: TextStyle(
+                                  fontSize: 20.0, color: Colors.white),
                             ),
                             Text(
                               "$email",
-                              style: TextStyle(fontSize: 14.0,color: Colors.white),
+                              style: TextStyle(
+                                  fontSize: 11.0, color: Colors.white),
                             ),
                           ],
                         ),
@@ -60,64 +63,54 @@ class MenuPage extends StatelessWidget {
                   ),
                 ),
                 TextButton.icon(
-                  style: TextButton.styleFrom(
-                      primary: Colors.white
-                  ),
+                  style: TextButton.styleFrom(primary: Colors.white),
                   onPressed: () {
-                    Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => MyAccount()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => MyAccount()));
                   },
                   icon: Icon(Icons.account_circle_outlined),
                   label: Text("My Account"),
                 ),
                 TextButton.icon(
-                  style: TextButton.styleFrom(
-                      primary: Colors.white
-                  ),
+                  style: TextButton.styleFrom(primary: Colors.white),
                   onPressed: () {
-                    Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => PastOrders()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => PastOrders()));
                   },
                   icon: Icon(Icons.shopping_bag_outlined),
                   label: Text("Past Orders"),
                 ),
                 TextButton.icon(
-                  style: TextButton.styleFrom(
-                      primary: Colors.white
-                  ),
+                  style: TextButton.styleFrom(primary: Colors.white),
                   onPressed: () {
-                    Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => Offers()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Offers()));
                   },
                   icon: Icon(Icons.verified_outlined),
                   label: Text("Offers & Discounts"),
                 ),
                 TextButton.icon(
-                  style: TextButton.styleFrom(
-                      primary: Colors.white
-                  ),
+                  style: TextButton.styleFrom(primary: Colors.white),
                   onPressed: () {
-                    Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => AboutUs()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => AboutUs()));
                   },
                   icon: Icon(Icons.info_outline),
                   label: Text("About Us"),
                 ),
                 TextButton.icon(
-                  style: TextButton.styleFrom(
-                      primary: Colors.white
-                  ),
+                  style: TextButton.styleFrom(primary: Colors.white),
                   onPressed: () {
                     Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => HelpAndFeedBack()));
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => HelpAndFeedBack()));
                   },
                   icon: Icon(Icons.headset_mic_outlined),
                   label: Text("Help & Feedback"),
                 ),
                 TextButton.icon(
-                  style: TextButton.styleFrom(
-                    primary: Colors.white
-                  ),
+                  style: TextButton.styleFrom(primary: Colors.white),
                   onPressed: () async {
                     await signOut();
                     await Navigator.pushAndRemoveUntil(
