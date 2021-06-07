@@ -12,16 +12,17 @@ class FButton extends StatelessWidget {
     return ButtonTheme(
       height: 45.0,
       minWidth: width,
-      child: FlatButton(
-        shape: RoundedRectangleBorder(
-          side: BorderSide(
-            color: CustomTheme.primaryColor,
-            width: 1,
-            style: BorderStyle.solid,
-          ),
-          borderRadius: BorderRadius.circular(0),
+      child: TextButton(
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all(RoundedRectangleBorder(
+              side: BorderSide(
+                color: CustomTheme.primaryColor,
+                width: 1,
+                style: BorderStyle.solid,
+              ),
+              borderRadius: BorderRadius.circular(0))),
+          backgroundColor: MaterialStateProperty.all(Colors.white),
         ),
-        color: Colors.white,
         child: Text(
           title,
           style: TextStyle(

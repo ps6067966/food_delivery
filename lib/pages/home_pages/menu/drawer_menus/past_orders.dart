@@ -4,8 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:food_delivery/services/auth/auth_util.dart';
 import 'package:food_delivery/widgets/ordercard.dart';
 import 'package:food_delivery/widgets/loadingWidget.dart';
-import 'dart:async';
-import 'package:flutter/services.dart';
 
 class PastOrders extends StatelessWidget {
   const PastOrders({Key key}) : super(key: key);
@@ -55,7 +53,7 @@ class PastOrders extends StatelessWidget {
                             .get(),
                         builder: (c, snap) {
                           return snap.hasData
-                              ? orderCard(
+                              ? OrderCard(
                                   itemCount: snap.data.docs.length,
                                   data: snap.data.docs,
                                   orderId: snapshot.data.docs[index].id,

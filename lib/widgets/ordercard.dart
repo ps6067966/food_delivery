@@ -3,18 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/rendering.dart';
 import 'package:food_delivery/models/items.dart';
-import 'package:food_delivery/constant/theme.dart';
 import 'package:food_delivery/widgets/FlatButton.dart';
 
 int counter = 0;
 double width;
 
-class orderCard extends StatelessWidget {
+class OrderCard extends StatelessWidget {
   final int itemCount;
   final String orderId;
   final List<DocumentSnapshot> data;
 
-  orderCard({Key key, this.itemCount, this.orderId, this.data})
+  OrderCard({Key key, this.itemCount, this.orderId, this.data})
       : super(key: key);
 
   @override
