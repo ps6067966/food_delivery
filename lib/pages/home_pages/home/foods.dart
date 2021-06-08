@@ -5,7 +5,7 @@ import 'package:food_delivery/constant/theme.dart';
 import 'food_details.dart';
 
 class Food extends StatelessWidget {
-   Food(
+  Food(
       {Key key,
       this.foodUrl = 'https://picsum.photos/seed/967/600',
       @required this.dishName,
@@ -43,6 +43,7 @@ class Food extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return Padding(
       padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
       child: Container(
@@ -66,7 +67,7 @@ class Food extends StatelessWidget {
                   child: Image.network(
                     foodUrl,
                     width: MediaQuery.of(context).size.width / 2.7,
-                    height: 175,
+                    height: 160,
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -85,7 +86,7 @@ class Food extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                              padding: EdgeInsets.only(left: 10, top: 10),
+                              padding: EdgeInsets.only(left: 10, top: 15),
                               child: Text(
                                 dishName,
                                 maxLines: 3,
@@ -99,7 +100,8 @@ class Food extends StatelessWidget {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(right: 10.0, top: 10),
+                              padding:
+                                  const EdgeInsets.only(right: 10.0, top: 10),
                               child: Container(
                                 width: 20,
                                 height: 20,
@@ -115,7 +117,7 @@ class Food extends StatelessWidget {
                           ],
                         ),
                         Padding(
-                          padding: EdgeInsets.fromLTRB(10, 4, 0, 0),
+                          padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                           child: Text(
                             foodDescription,
                             maxLines: 3,
@@ -125,7 +127,7 @@ class Food extends StatelessWidget {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.fromLTRB(10, 4, 0, 0),
+                          padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                           child: Text(
                             '$foodDeliveryTime min',
                             style: CustomTheme.bodyText1.override(
@@ -142,11 +144,10 @@ class Food extends StatelessWidget {
                               child: Text(
                                 '₹ $foodPrice',
                                 style: CustomTheme.bodyText1.override(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 13,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold
-                                ),
+                                    fontFamily: 'Poppins',
+                                    fontSize: 13,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
                             TextButton.icon(

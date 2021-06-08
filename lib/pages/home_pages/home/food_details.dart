@@ -37,13 +37,13 @@ class _FoodDetailPageState extends State<FoodDetailPage> {
           Align(
             alignment: Alignment.topLeft,
             child: Container(
-              height: 320,
+              height: 270,
               width: MediaQuery.of(context).size.width,
               child: Hero(
                 tag: widget.name,
                 child: Image.network(
                   widget.url,
-                  fit: BoxFit.fill,
+                  fit: BoxFit.fitWidth,
                 ),
               ),
             ),
@@ -73,7 +73,7 @@ class _FoodDetailPageState extends State<FoodDetailPage> {
           Align(
             alignment: Alignment.bottomLeft,
             child: Container(
-              height: MediaQuery.of(context).size.height - 250,
+              height: MediaQuery.of(context).size.height -270,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 color: Colors.white,
