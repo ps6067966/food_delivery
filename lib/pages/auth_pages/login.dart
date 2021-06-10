@@ -9,6 +9,7 @@ import 'package:food_delivery/widgets/custom_check_box.dart';
 import 'package:food_delivery/widgets/custom_text_field.dart';
 import '../home_pages/nav_bar_page.dart';
 import '../home_pages/home/home.dart';
+import 'package:food_delivery/pages/auth_pages/forgot_password.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key}) : super(key: key);
@@ -212,7 +213,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           shape: BoxShape.rectangle,
                         ),
                         child: Text(
-                          'Please enter your email or phone number to sign in',
+                          'Please enter your email to sign in',
                           textAlign: TextAlign.center,
                           style: CustomTheme.bodyText1.override(
                             fontFamily: 'Poppins',
@@ -240,7 +241,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             padding: const EdgeInsets.fromLTRB(22, 30, 20, 20),
                             child: CustomTextFormField(
                               iconData: Icons.person_outlined,
-                              hintText: 'Email or Phone number',
+                              hintText: 'Email',
                               textController: emailTextController,
                               onChanged: (value) => email = value,
                               validator: (val) {
@@ -312,7 +313,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                       },
                                       text: 'Remember me'),
                                   TextButton(
-                                    onPressed: () {},
+                                      onPressed: () => Navigator.of(context).push(
+                                        MaterialPageRoute(builder: (context) => ResetPasswordScreen()),
+                                      ),
                                     child: Text(
                                       'Forgot Password',
                                       style:
