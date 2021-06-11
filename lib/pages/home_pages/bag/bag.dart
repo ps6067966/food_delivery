@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'empty_bag.dart';
 
 class BagPage extends StatelessWidget {
@@ -9,9 +10,8 @@ class BagPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: EmptyBag(
-        onPressed: onPressed,
-      ),
+      body: 
+      EmptyBag( onPressed: onPressed,),
     );
   }
 }
