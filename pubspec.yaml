@@ -27,6 +27,9 @@ dependencies:
   flutter_inner_drawer: ^1.0.0+1
   cached_network_image: ^3.0.0
   flutter_cache_manager: 3.1.1
+  geolocator: ^7.0.3
+  geocoder: ^0.2.1
+  location: ^4.2.3
 
 dev_dependencies:
   build_runner: ^1.11.0

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/constant/theme.dart';
+import 'package:food_delivery/pages/home_pages/nav_bar_page.dart';
 import 'package:intro_slider/intro_slider.dart';
 import 'package:intro_slider/slide_object.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'auth_pages/login.dart';
 
 class IntroScreen extends StatefulWidget {
-
   IntroScreen({Key key}) : super(key: key);
 
   @override
@@ -15,7 +14,6 @@ class IntroScreen extends StatefulWidget {
 
 class IntroScreenState extends State<IntroScreen> {
   List<Slide> slides = [];
-
 
   @override
   void initState() {
@@ -29,7 +27,7 @@ class IntroScreenState extends State<IntroScreen> {
               padding: EdgeInsets.fromLTRB(10, 10, 10, 15),
               child: Text(
                 'Explore from variety'
-                    '\n of Items',
+                '\n of Items',
                 textAlign: TextAlign.center,
                 style: CustomTheme.title1.override(
                   fontFamily: 'Poppins',
@@ -42,8 +40,8 @@ class IntroScreenState extends State<IntroScreen> {
               padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
               child: Text(
                 'Lorem Ipsum is simply dummy text of the printing and '
-                    'typesetting industry. Lorem Ipsum has been the '
-                    'industry\'s standard dummy text .',
+                'typesetting industry. Lorem Ipsum has been the '
+                'industry\'s standard dummy text .',
                 textAlign: TextAlign.center,
                 style: CustomTheme.subtitle2.override(
                   fontFamily: 'Poppins',
@@ -60,7 +58,7 @@ class IntroScreenState extends State<IntroScreen> {
           fontWeight: FontWeight.bold,
         ),
         description:
-        'Lorem Ipsum is simply dummy text of the printing and typesetting '
+            'Lorem Ipsum is simply dummy text of the printing and typesetting '
             'industry. Lorem Ipsum has been the industry\'s '
             'standard dummy text .',
         pathImage: "assets/images/undraw_healthy_options_sdo3.png",
@@ -87,8 +85,8 @@ class IntroScreenState extends State<IntroScreen> {
               padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
               child: Text(
                 'Lorem Ipsum is simply dummy text of the printing and '
-                    'typesetting industry. Lorem Ipsum has been the '
-                    'industry\'s standard dummy text .',
+                'typesetting industry. Lorem Ipsum has been the '
+                'industry\'s standard dummy text .',
                 textAlign: TextAlign.center,
                 style: CustomTheme.subtitle2.override(
                   fontFamily: 'Poppins',
@@ -105,7 +103,7 @@ class IntroScreenState extends State<IntroScreen> {
           fontWeight: FontWeight.bold,
         ),
         description:
-        'Lorem Ipsum is simply dummy text of the printing and typesetting '
+            'Lorem Ipsum is simply dummy text of the printing and typesetting '
             'industry. Lorem Ipsum has been the industry\'s standard '
             'dummy text .',
         pathImage: "assets/images/undraw_My_location_re_r52x.png",
@@ -132,8 +130,8 @@ class IntroScreenState extends State<IntroScreen> {
               padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
               child: Text(
                 'Lorem Ipsum is simply dummy text of the printing and '
-                    'typesetting industry. Lorem Ipsum has been the '
-                    'industry\'s standard dummy text .',
+                'typesetting industry. Lorem Ipsum has been the '
+                'industry\'s standard dummy text .',
                 textAlign: TextAlign.center,
                 style: CustomTheme.subtitle2.override(
                   fontFamily: 'Poppins',
@@ -150,7 +148,7 @@ class IntroScreenState extends State<IntroScreen> {
           fontWeight: FontWeight.bold,
         ),
         description:
-        'Lorem Ipsum is simply dummy text of the printing and typesetting '
+            'Lorem Ipsum is simply dummy text of the printing and typesetting '
             'industry. Lorem Ipsum has been the industry\'s '
             'standard dummy text .',
         pathImage: "assets/images/undraw_On_the_way_re_swjt.png",
@@ -166,9 +164,12 @@ class IntroScreenState extends State<IntroScreen> {
     await Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
-        builder: (context) => LoginScreen(),
+        builder: (context) => NavBarPage(
+          initialPage: 'HomePage',
+          isLoggedIn: false,
+        ),
       ),
-          (r) => false,
+      (r) => false,
     );
   }
 
@@ -195,7 +196,7 @@ class IntroScreenState extends State<IntroScreen> {
 
   Widget renderDoneBtn() {
     return Text(
-      "Login",
+      "Start",
       style: CustomTheme.subtitle1.override(
           fontFamily: 'Poppins',
           color: const Color(0xffffb90b),

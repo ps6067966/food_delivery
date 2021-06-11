@@ -7,9 +7,10 @@ import 'package:food_delivery/pages/home_pages/menu/menu.dart';
 import 'home/home.dart';
 
 class NavBarPage extends StatefulWidget {
-  NavBarPage({Key key, this.initialPage}) : super(key: key);
+  NavBarPage({Key key, this.initialPage, this.isLoggedIn=false}) : super(key: key);
 
   final String initialPage;
+  final bool isLoggedIn;
 
   @override
   _NavBarPageState createState() => _NavBarPageState();
@@ -73,7 +74,7 @@ class _NavBarPageState extends State<NavBarPage> {
         })
       }, // return  true (open) or false (close)
       leftChild: Container(), // required if rightChild is not set
-      rightChild: MenuPage(),
+      rightChild: MenuPage(isLoggedIn: widget.isLoggedIn,),
       scaffold: Scaffold(
         key: scaffoldKey,
         body: tabs[_currentPage],

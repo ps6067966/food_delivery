@@ -47,8 +47,8 @@ class Food extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
       child: Container(
-        width: MediaQuery.of(context).size.width / 4,
-        height: 200,
+        width: MediaQuery.of(context).size.width /4,
+        height: 150,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
@@ -66,8 +66,8 @@ class Food extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                   child: Image.network(
                     foodUrl,
-                    width: MediaQuery.of(context).size.width / 2.7,
-                    height: 160,
+                    width: MediaQuery.of(context).size.width / 2.5,
+                    height: 140,
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -136,6 +136,7 @@ class Food extends StatelessWidget {
                             ),
                           ),
                         ),
+                        Spacer(),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

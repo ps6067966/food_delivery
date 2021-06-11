@@ -32,65 +32,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return (!regex.hasMatch(value)) ? false : true;
   }
 
-  // Future<void> submit(BuildContext context) async {
-  //   try {
-  //     auth = Provider.of<AuthBase>(context, listen: false);
-  //     var result = await auth.createUserWithEmailAndPassword(name, email, password);
-  //     // Navigator.pop(context);
-  //     if(result!=null){
-  //       Navigator.push(
-  //         context,
-  //         MaterialPageRoute(
-  //           builder: (context) => Home(user: result,),
-  //         ),
-  //       );
-  //     }
-  //   } on FirebaseAuthException catch (e) {
-  //     print(e.toString());
-  //     switch (e.code) {
-  //       case "invalid-email":
-  //         errorMessage = "Your email address is incorrect";
-  //         break;
-  //       case "email-already-in-use":
-  //         errorMessage =
-  //             "The email address is already in use by another account.";
-  //         break;
-  //       case "wrong-password":
-  //         errorMessage = "Your password is wrong.";
-  //         break;
-  //       case "user-not-found":
-  //         errorMessage = "User with this email doesn't exist.";
-  //         break;
-  //       case "user-disabled":
-  //         errorMessage = "User with this email has been disabled.";
-  //         break;
-  //       case "too-many-requests":
-  //         errorMessage = "Too many requests. Try again later.";
-  //         break;
-  //       case "operation-not-allowed":
-  //         errorMessage = "Signing in with Email and Password is not enabled.";
-  //         break;
-  //       default:
-  //         errorMessage = "An undefined Error happened.";
-  //     }
-  //     showDialog(
-  //         barrierDismissible: true,
-  //         context: context,
-  //         builder: (context) {
-  //           return AlertDialog(
-  //             title: Text('Sign up failed'),
-  //             content: Text(errorMessage),
-  //             actions: <Widget>[
-  //               TextButton(
-  //                 onPressed: () => Navigator.of(context).pop(false),
-  //                 child: const Text("Cancel"),
-  //               ),
-  //             ],
-  //           );
-  //         });
-  //   }
-  // }
-
   @override
   void initState() {
     super.initState();
@@ -301,7 +242,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          NavBarPage(initialPage: 'HomePage'),
+                                          NavBarPage(initialPage: 'HomePage',isLoggedIn: true,),
                                     ),
                                     (r) => false,
                                   );

@@ -110,7 +110,7 @@ class AboutUs extends StatelessWidget {
                   children: <Widget>[
                     Container(
                       height: 60,
-                      width: 160,
+                      width: MediaQuery.of(context).size.width*0.4,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -136,7 +136,7 @@ class AboutUs extends StatelessWidget {
                     ),
                     Container(
                       height: 60,
-                      width: 160,
+                      width: MediaQuery.of(context).size.width*0.4,
                       child: Center(
                         child: Text(
                           'Photos'.toUpperCase(),
