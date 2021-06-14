@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:food_delivery/pages/intro_page.dart';
-import 'package:food_delivery/pages/auth_pages/login.dart';
 import 'package:food_delivery/pages/home_pages/nav_bar_page.dart';
 import 'package:food_delivery/services/auth/firebase_user_provider.dart';
 import 'package:food_delivery/widgets/splash.dart';
@@ -56,13 +55,11 @@ class _MyAppState extends State<MyApp> {
       home: initialUser == null
           ? Scaffold(
               backgroundColor: const Color(0xffffb90b),
+              body: Splash(),
             )
-          : Splash(
-              widget: widget.isFirstTime
-                  ? IntroScreen()
-                  : currentUser.loggedIn
-                      ? NavBarPage()
-                      : LoginScreen()),
+          : widget.isFirstTime
+              ? IntroScreen()
+              : NavBarPage(isLoggedIn: currentUser.loggedIn,)
     );
   }
 }

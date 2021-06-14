@@ -29,7 +29,7 @@ class MyAccount extends StatelessWidget {
                   top: 30,
                   child: IconButton(
                     icon: Icon(
-                      Icons.arrow_back_ios_new_rounded,
+                      Icons.arrow_back_ios_rounded,
                       size: 30,
                       color: Colors.white,
                     ),

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:food_delivery/constant/theme.dart';
@@ -12,6 +13,7 @@ class FoodDetailPage extends StatefulWidget {
   final bool isDishVeg;
   final VoidCallback onAddPressed;
   final VoidCallback onImgPressed;
+  final bool isLoggedIn;
 
   FoodDetailPage(
       {this.name,
@@ -22,13 +24,20 @@ class FoodDetailPage extends StatefulWidget {
       this.foodPrice = 0,
       this.isDishVeg = false,
       this.onAddPressed,
-      this.onImgPressed});
+      this.onImgPressed, this.isLoggedIn=false});
   @override
   _FoodDetailPageState createState() => _FoodDetailPageState();
 }
 
 class _FoodDetailPageState extends State<FoodDetailPage> {
-  int foodPrice = 200;
+  int foodPrice = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    foodPrice = widget.foodPrice;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,13 +46,13 @@ class _FoodDetailPageState extends State<FoodDetailPage> {
           Align(
             alignment: Alignment.topLeft,
             child: Container(
-              height: 270,
+              height: 300,
               width: MediaQuery.of(context).size.width,
               child: Hero(
                 tag: widget.name,
                 child: Image.network(
                   widget.url,
-                  fit: BoxFit.fitWidth,
+                  fit: BoxFit.fill,
                 ),
               ),
             ),
@@ -73,7 +82,7 @@ class _FoodDetailPageState extends State<FoodDetailPage> {
           Align(
             alignment: Alignment.bottomLeft,
             child: Container(
-              height: MediaQuery.of(context).size.height -270,
+              height: MediaQuery.of(context).size.height - 270,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -215,25 +224,14 @@ class _FoodDetailPageState extends State<FoodDetailPage> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              foodPrice = 2 * widget.foodPrice;
-                                            });
-                                          },
-                                          child: IconButton(
-                                            icon: Icon(
-                                              Icons.add_box,
-                                              color: CustomTheme.primaryColor,
-                                              size: 40,
-                                            ),
-                                            onPressed: () {
-                                              setState(() {
-                                                foodPrice = foodPrice * 2;
-                                              });
-                                              print(foodPrice);
-                                            },
+                                        IconButton(
+                                          icon: Icon(
+                                            Icons.add_box,
+                                            color: CustomTheme.primaryColor,
+                                            size: 40,
                                           ),
+                                          onPressed: () => setState(() =>
+                                              foodPrice += widget.foodPrice),
                                         ),
                                         Container(
                                           color: Color(0xFFE8E8E8),
@@ -259,12 +257,10 @@ class _FoodDetailPageState extends State<FoodDetailPage> {
                                               color: CustomTheme.primaryColor,
                                               size: 40,
                                             ),
-                                            onPressed: () {
-                                              setState(() {
-                                                foodPrice =
-                                                    (foodPrice / 2).round();
-                                              });
-                                            },
+                                            onPressed: () => setState(() {
+                                              if (foodPrice != widget.foodPrice)
+                                                foodPrice -= widget.foodPrice;
+                                            }),
                                           ),
                                         ),
                                       ],
@@ -273,7 +269,23 @@ class _FoodDetailPageState extends State<FoodDetailPage> {
                                   SocialButton(
                                       icon: FaIcon(Icons.shopping_bag_outlined),
                                       text: "Add to Bag",
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        print(foodPrice);
+                                        var user = FirebaseAuth.instance.currentUser;
+                                        if (user == null) {
+                                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(content: Text('You are not Logged in')),
+                                          );
+                                          return;
+                                        }else{
+                                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(content: Text('Added to Bag')),
+                                          );
+                                          Navigator.pop(context);
+                                        }
+                                      },
                                       color: CustomTheme.primaryColor)
                                 ],
                               ),

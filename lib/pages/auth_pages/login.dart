@@ -8,7 +8,6 @@ import 'package:food_delivery/widgets/custom_button.dart';
 import 'package:food_delivery/widgets/custom_check_box.dart';
 import 'package:food_delivery/widgets/custom_text_field.dart';
 import '../home_pages/nav_bar_page.dart';
-import '../home_pages/home/home.dart';
 import 'package:food_delivery/pages/auth_pages/forgot_password.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -24,7 +23,6 @@ class _LoginScreenState extends State<LoginScreen> {
   bool checkboxListTileValue;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
-  // AuthBase auth;
   String email, password;
   String errorMessage = "An undefined Error happened.";
   bool _passwordVisible;
@@ -43,103 +41,6 @@ class _LoginScreenState extends State<LoginScreen> {
     RegExp regex = new RegExp(pattern);
     return (!regex.hasMatch(value)) ? false : true;
   }
-
-  // Future<void> submit(BuildContext context) async {
-  //   try {
-  //     auth = Provider.of<AuthBase>(context, listen: false);
-  //     var result = await auth.signInWithEmailAndPassword(email, password);
-  //     print(result);
-  //     if(result!=null){
-  //       Navigator.push(
-  //         context,
-  //         MaterialPageRoute(
-  //           builder: (context) => Home(user: result,),
-  //         ),
-  //       );
-  //     }else{
-  //       // showDialog(
-  //       //     barrierDismissible: true,
-  //       //     context: context,
-  //       //     builder: (context) {
-  //       //       return AlertDialog(
-  //       //         title: Text('Sign in failed'),
-  //       //         content: Text(errorMessage),
-  //       //         actions: <Widget>[
-  //       //           TextButton(
-  //       //             onPressed: () => Navigator.of(context).pop(false),
-  //       //             child: const Text("Cancel"),
-  //       //           ),
-  //       //         ],
-  //       //       );
-  //       //     });
-  //     }
-  //   } on FirebaseAuthException catch (e) {
-  //     print(e.toString());
-  //     switch (e.code) {
-  //       case "invalid-email":
-  //         errorMessage = "Your email address is incorrect";
-  //         break;
-  //       case "wrong-password":
-  //         errorMessage = "Your password is wrong.";
-  //         break;
-  //       case "user-not-found":
-  //         errorMessage = "User with this email doesn't exist.";
-  //         break;
-  //       case "user-disabled":
-  //         errorMessage = "User with this email has been disabled.";
-  //         break;
-  //       case "too-many-requests":
-  //         errorMessage = "Too many requests. Try again later.";
-  //         break;
-  //       case "operation-not-allowed":
-  //         errorMessage = "Signing in with Email and Password is not enabled.";
-  //         break;
-  //       default:
-  //         errorMessage = "An undefined Error happened.";
-  //     }
-  //     showDialog(
-  //         barrierDismissible: true,
-  //         context: context,
-  //         builder: (context) {
-  //           return AlertDialog(
-  //             title: Text('Sign in failed'),
-  //             content: Text(errorMessage),
-  //             actions: <Widget>[
-  //               TextButton(
-  //                 onPressed: () => Navigator.of(context).pop(false),
-  //                 child: const Text("Cancel"),
-  //               ),
-  //             ],
-  //           );
-  //         });
-  //   }
-  // }
-
-  // Future<void> _signInWithGoogle(BuildContext context) async {
-  //   try {
-  //     auth = Provider.of<AuthBase>(context, listen: false);
-  //     await auth.signInWithGoogle();
-  //     // await widget.manager.signInWithGoogle();
-  //   } on FirebaseAuthException catch (e) {
-  //     if (e.code != 'ERROR_ABORTED_BY_USER') {
-  //       showDialog(
-  //           barrierDismissible: true,
-  //           context: context,
-  //           builder: (context) {
-  //             return AlertDialog(
-  //               title: Text('Sign in failed'),
-  //               content: Text(e.toString()),
-  //               actions: <Widget>[
-  //                 TextButton(
-  //                   onPressed: () => Navigator.of(context).pop(false),
-  //                   child: const Text("Cancel"),
-  //                 ),
-  //               ],
-  //             );
-  //           });
-  //     }
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -162,8 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: IconButton(
             splashRadius: 20,
             onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => HomePage()));
+              Navigator.pop(context);
             },
             icon: Icon(
               Icons.chevron_left_outlined,
@@ -172,24 +72,6 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ),
-        // actions: [
-        //   Padding(
-        //     padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-        //     child: IconButton(
-        //       splashRadius: 20,
-        //       onPressed: () {
-        //         Navigator.push(context,
-        //             MaterialPageRoute(builder: (context) => Home())
-        //         );
-        //       },
-        //       icon: Icon(
-        //         Icons.close_outlined,
-        //         color: Colors.black,
-        //         size: 20,
-        //       ),
-        //     ),
-        //   ),
-        // ],
       ),
       body: SafeArea(
         child: GestureDetector(
@@ -350,7 +232,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          NavBarPage(initialPage: 'HomePage'),
+                                          NavBarPage(initialPage: 'HomePage',isLoggedIn: true,),
                                     ),
                                     (r) => false,
                                   );
@@ -397,7 +279,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     MaterialPageRoute(
                                       builder: (context) => SignUpScreen(),
                                     ),
-                                    (r) => false,
+                                    (r) => true,
                                   );
                                 },
                                 child: Text(
