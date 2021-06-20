@@ -4,11 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:food_delivery/constant/theme.dart';
+import 'package:food_delivery/models/fake_db.dart';
+import 'package:food_delivery/models/food_model.dart';
 import 'package:food_delivery/pages/home_pages/home/category_items.dart';
 import 'package:food_delivery/pages/home_pages/home/food_type.dart';
 import 'package:food_delivery/pages/home_pages/home/home_heading.dart';
 import 'package:food_delivery/pages/home_pages/home/notifications.dart';
 import 'package:food_delivery/services/auth/auth_util.dart';
+import 'package:food_delivery/services/backend/api_path.dart';
 import 'package:food_delivery/widgets/custom_text_field.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:location/location.dart';
@@ -18,7 +21,8 @@ import 'foods.dart';
 class HomePage extends StatefulWidget {
   const HomePage({
     Key key,
-    this.textController, this.isLoggedIn=false,
+    this.textController,
+    this.isLoggedIn = false,
   }) : super(key: key);
 
   final TextEditingController textController;
@@ -32,12 +36,9 @@ class _HomePageState extends State<HomePage> {
   TextEditingController searchTextController;
   String name;
   ScrollController _scrollViewController;
-  bool _showAppbar = true;
-  bool isScrollingDown = false;
-  String myAddress="";
+  String myAddress = "";
 
-  /// for backend purpose ,done run this
-  void addToFirestore(){}
+
 
   @override
   void initState() {
@@ -45,25 +46,6 @@ class _HomePageState extends State<HomePage> {
     getUserLocation();
     searchTextController = TextEditingController();
     _scrollViewController = new ScrollController();
-    _scrollViewController.addListener(() {
-      if (_scrollViewController.position.userScrollDirection ==
-          ScrollDirection.reverse) {
-        if (!isScrollingDown) {
-          isScrollingDown = true;
-          _showAppbar = false;
-          setState(() {});
-        }
-      }
-
-      if (_scrollViewController.position.userScrollDirection ==
-          ScrollDirection.forward) {
-        if (isScrollingDown) {
-          isScrollingDown = false;
-          _showAppbar = true;
-          setState(() {});
-        }
-      }
-    });
   }
 
   getUserLocation() async {
@@ -92,7 +74,7 @@ class _HomePageState extends State<HomePage> {
     //     ' ${first.subAdminArea},${first.addressLine}, ${first.featureName},'
     //     '${first.thoroughfare}, ${first.subThoroughfare}');
     setState(() {
-      myAddress="${first.addressLine},";
+      myAddress = "${first.addressLine},";
     });
     return first;
   }
@@ -108,29 +90,22 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize:
-            Size(MediaQuery.of(context).size.width, _showAppbar ? 56.0 : 0.0),
-        child: AnimatedContainer(
-          duration: Duration(milliseconds: 200),
-          child: AppBar(
-            automaticallyImplyLeading: false,
-            backgroundColor: Colors.white,
-            title: greetingAndNotification(),
-            elevation: 0.0,
-            actions: [
-              IconButton(
-                onPressed: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Notifications())),
-                icon: Icon(
-                  Icons.notifications_outlined,
-                  size: 30,
-                  color: CustomTheme.tertiaryColor,
-                ),
-              ),
-            ],
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.white,
+        title: greetingAndNotification(),
+        elevation: 0.0,
+        actions: [
+          IconButton(
+            onPressed: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => Notifications())),
+            icon: Icon(
+              Icons.notifications_outlined,
+              size: 30,
+              color: CustomTheme.tertiaryColor,
+            ),
           ),
-        ),
+        ],
       ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -168,27 +143,34 @@ class _HomePageState extends State<HomePage> {
               padding: EdgeInsets.fromLTRB(20, 20, 10, 0),
               child: HomeHeading(headText: "Explore"),
             ),
-            StreamBuilder(
-              stream: FirebaseFirestore.instance.collection('Dish').snapshots(),
-              builder: (context, snapshot) {
+            StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection(APIPath.topFoods())
+                  .snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (!snapshot.hasData) {
                   return CircularProgressIndicator();
                 } else {
-                  final children = snapshot.data.docs.map<Widget>((doc) {
-                    // print("${snapshot.data.docs}");
-                    return Food(
-                      foodId: doc['dishId'],
-                      foodUrl: doc['dishPhotoUrl'],
-                      dishName: doc['dishName'],
-                      foodDescription: doc['dishIngredients'],
-                      foodDeliveryTime: doc['deliveryTime'],
-                      foodPrice: doc['dishPrice'],
-                      isDishVeg: doc['isVeg'],
-                      onAddPressed: () {},
-                    );
-                  }).toList();
-                  return ListBody(
-                    children: children,
+                  return Container(
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: snapshot.data.docs.length,
+                        itemBuilder: (context, index) {
+                          Map<String, dynamic> ref =
+                              snapshot.data.docs.elementAt(index).data();
+                          var food = FoodModel.fromJson(ref);
+                          return Food(
+                            foodId: food.foodId,
+                            foodUrl: food.foodUrl,
+                            dishName: food.foodName,
+                            foodDescription: food.foodIngredients,
+                            foodDeliveryTime: food.foodDeliveryTime,
+                            foodPrice: food.foodPrice,
+                            isDishVeg: food.isVeg,
+                          );
+                        }),
                   );
                 }
               },
@@ -259,9 +241,9 @@ class _HomePageState extends State<HomePage> {
                 new TextSpan(
                   text: 'Home \n',
                   style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      fontSize: 16,
-                      letterSpacing: 0,
+                    fontWeight: FontWeight.normal,
+                    fontSize: 16,
+                    letterSpacing: 0,
                   ),
                   children: <TextSpan>[
                     new TextSpan(

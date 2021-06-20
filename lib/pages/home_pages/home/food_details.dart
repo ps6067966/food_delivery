@@ -55,7 +55,7 @@ class _FoodDetailPageState extends State<FoodDetailPage> {
       return;
     } else {
       final reference = FirebaseFirestore.instance.collection(APIPath.myBag(user.uid));
-      String pathOfDish = "Dish/${widget.foodId}";
+      String pathOfDish = "${APIPath.topFoods()}${widget.foodId}";
       print(pathOfDish);
       bool isOldData=false;
       FirebaseFirestore.instance

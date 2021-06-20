@@ -74,3 +74,24 @@ class FirestoreDatabase implements Database {
   //       // sort: (lhs, rhs) => rhs.start.compareTo(lhs.start),
   //     );
 }
+
+/// for backend purpose only,don't run this !!!!
+// Future<void> addToFirestore() async {
+//   List<Map<String, dynamic>> topFoods = FakeDB.desserts;
+//   for (var eachFood in topFoods) {
+//     var food = FoodModel.fromJson(eachFood);
+//     DocumentReference reference =
+//     FirebaseFirestore.instance.collection(APIPath.desserts()).doc();
+//     Map<String, dynamic> data = {
+//       "foodId": reference.id,
+//       "foodName": food.foodName,
+//       "foodUrl": food.foodUrl,
+//       "foodCategory": food.foodCategory,
+//       "foodIngredients": food.foodIngredients,
+//       "foodDeliveryTime": food.foodDeliveryTime,
+//       "foodPrice": food.foodPrice,
+//       "isVeg": food.isVeg
+//     };
+//     await reference.set(data);
+//   }
+// }
