@@ -14,6 +14,6 @@ Future<User> createAccountWithEmail(
     BuildContext context,String name, String email, String password) async {
   final createAccountFunc = () => FirebaseAuth.instance
       .createUserWithEmailAndPassword(email: email.trim(), password: password)
-      ..then((value) => value.user.updateProfile(displayName: name));
+      ..then((value) => value.user.updateDisplayName(name));
   return signInOrCreateAccount(context, createAccountFunc);
 }
