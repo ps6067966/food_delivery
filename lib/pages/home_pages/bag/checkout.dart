@@ -180,7 +180,7 @@ class _CheckoutState extends State<Checkout> {
                       boxShadow: [
                         new BoxShadow(
                           color: Colors.black,
-                          blurRadius: 15,
+                          blurRadius: 10,
                         )
                       ]),
                   child: ListView(
