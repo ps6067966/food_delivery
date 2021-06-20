@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:food_delivery/constant/theme.dart';
 import 'package:food_delivery/models/food_model.dart';
+import 'package:food_delivery/widgets/custom_button.dart';
 
 import 'checkout_foods.dart';
 
 class Checkout extends StatefulWidget {
-  Checkout({Key key,@required this.totalItems,@required this.listOfFoodModel,@required this.totalAmount}) : super(key: key);
+  Checkout(
+      {Key key,
+      @required this.totalItems,
+      @required this.listOfFoodModel,
+      @required this.totalAmount})
+      : super(key: key);
 
   final num totalItems;
   final num totalAmount;
@@ -55,11 +62,21 @@ class _CheckoutState extends State<Checkout> {
                             itemCount: widget.listOfFoodModel.length,
                             itemBuilder: (context, index) {
                               return CheckoutFood(
-                                  dishName: widget.listOfFoodModel.elementAt(index).foodName,
-                                  foodDescription: widget.listOfFoodModel.elementAt(index).foodIngredients,
-                                  foodDeliveryTime: widget.listOfFoodModel.elementAt(index).foodDeliveryTime,
-                                  foodPrice: widget.listOfFoodModel.elementAt(index).foodPrice,
-                                  isDishVeg: widget.listOfFoodModel.elementAt(index).isVeg);
+                                  dishName: widget.listOfFoodModel
+                                      .elementAt(index)
+                                      .foodName,
+                                  foodDescription: widget.listOfFoodModel
+                                      .elementAt(index)
+                                      .foodIngredients,
+                                  foodDeliveryTime: widget.listOfFoodModel
+                                      .elementAt(index)
+                                      .foodDeliveryTime,
+                                  foodPrice: widget.listOfFoodModel
+                                      .elementAt(index)
+                                      .foodPrice,
+                                  isDishVeg: widget.listOfFoodModel
+                                      .elementAt(index)
+                                      .isVeg);
                             },
                           ),
                         ),
@@ -77,7 +94,8 @@ class _CheckoutState extends State<Checkout> {
                                 children: <Widget>[
                                   Text('Item Total',
                                       style: CustomTheme.subtitle2),
-                                  Text('₹${widget.totalAmount}', style: CustomTheme.subtitle2)
+                                  Text('₹${widget.totalAmount}',
+                                      style: CustomTheme.subtitle2)
                                 ],
                               ),
                               Row(
@@ -103,14 +121,16 @@ class _CheckoutState extends State<Checkout> {
                                 children: <Widget>[
                                   Text('Grand Total'.toUpperCase(),
                                       style: CustomTheme.title3),
-                                  Text('₹${widget.totalAmount+40}', style: CustomTheme.title3)
+                                  Text('₹${widget.totalAmount + 40}',
+                                      style: CustomTheme.title3)
                                 ],
                               ),
-
                             ],
                           ),
                         ),
-                        SizedBox(height: 150,),
+                        SizedBox(
+                          height: 150,
+                        ),
                       ],
                     ),
                   ),
@@ -196,40 +216,47 @@ class _CheckoutState extends State<Checkout> {
                               children: [
                                 Text('Amount to Pay:      ',
                                     style: CustomTheme.subtitle2),
-                                Text('₹${widget.totalAmount+40}',
+                                Text('₹${widget.totalAmount + 40}',
                                     style: CustomTheme.subtitle2.override(
                                         fontFamily: 'Poppins',
                                         fontWeight: FontWeight.bold))
                               ],
                             ),
                             SizedBox(height: 15),
-                            Container(
+                            // Container(
+                            //   height: 60,
+                            //   decoration: BoxDecoration(
+                            //     color: CustomTheme.primaryColor,
+                            //     borderRadius: BorderRadius.circular(20),
+                            //   ),
+                            //   child: Center(
+                            //       child: Row(
+                            //     mainAxisAlignment: MainAxisAlignment.center,
+                            //     children: [
+                            //       Text(
+                            //         'Place Order',
+                            //         style: TextStyle(
+                            //             fontFamily: 'Poppins',
+                            //             fontSize: 20,
+                            //             color: Colors.white,
+                            //             fontWeight: FontWeight.bold),
+                            //       ),
+                            //       Icon(
+                            //         Icons.keyboard_arrow_right_rounded,
+                            //         size: 37,
+                            //         color: Colors.white,
+                            //       )
+                            //     ],
+                            //   )),
+                            // ),
+                            SocialButton(
+                                icon: FaIcon(FontAwesomeIcons.chevronRight),
+                                text: "Place Order",
+                                onPressed: () {},
+                                color: CustomTheme.primaryColor),
+                            SizedBox(
                               height: 60,
-                              decoration: BoxDecoration(
-                                color: CustomTheme.primaryColor,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Center(
-                                  child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Place Order',
-                                    style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontSize: 20,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Icon(
-                                    Icons.keyboard_arrow_right_rounded,
-                                    size: 37,
-                                    color: Colors.white,
-                                  )
-                                ],
-                              )),
                             ),
-                            SizedBox(height: 60,),
                           ],
                         ),
                       ),

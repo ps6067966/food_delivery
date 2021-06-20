@@ -12,7 +12,7 @@ class BagItems extends StatelessWidget {
       @required this.foodPrice,
       @required this.isDishVeg,
       @required this.onDeletePressed,
-      this.quantity = 0})
+      this.quantity = 0, this.onQuantityChanged})
       : super(key: key);
 
   final String foodUrl;
@@ -23,6 +23,7 @@ class BagItems extends StatelessWidget {
   final bool isDishVeg;
   final num quantity;
   final VoidCallback onDeletePressed;
+  final VoidCallback onQuantityChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -124,19 +125,22 @@ class BagItems extends StatelessWidget {
                               fontWeight: FontWeight.bold),
                         ),
                       ),
-                      Container(
-                        width: 25,
-                        height: 25,
-                        child: Center(
-                          child: Text(
-                            quantity.toInt().toString(),
-                            style: TextStyle(
-                                color: Colors.white, fontSize: 16),
+                      InkWell(
+                        onTap: onQuantityChanged,
+                        child: Container(
+                          width: 25,
+                          height: 25,
+                          child: Center(
+                            child: Text(
+                              quantity.toInt().toString(),
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 16),
+                            ),
                           ),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: CustomTheme.primaryColor),
                         ),
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: CustomTheme.primaryColor),
                       ),
                       IconButton(
                           splashRadius: 20,

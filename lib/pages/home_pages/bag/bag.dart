@@ -60,6 +60,21 @@ class _BagPageState extends State<BagPage> {
     }
   }
 
+  Future<void> onQuantityChanged(
+      BuildContext context, String path, num quantity) async {
+    final didRequestSignOut = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return MyDialog(
+          quantity: quantity,path: path,
+        );
+      },
+    );
+    if (didRequestSignOut == true) {
+      setState(() {});
+    }
+  }
+
   Widget orderView(BuildContext context, int totalItems, int totalPrice) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -98,7 +113,7 @@ class _BagPageState extends State<BagPage> {
                       builder: (context) => Checkout(
                             totalItems: totalItems,
                             listOfFoodModel: listOfFoodModel,
-                        totalAmount: totalPrice,
+                            totalAmount: totalPrice,
                           )));
             }),
       ],
@@ -140,6 +155,13 @@ class _BagPageState extends State<BagPage> {
                         foodDeliveryTime: f.foodDeliveryTime,
                         foodPrice: f.foodPrice,
                         isDishVeg: f.isVeg,
+                        onQuantityChanged: () => onQuantityChanged(
+                            context,
+                            APIPath.myBagItemId(user.uid, myBagItemId),
+                            snapshot.data.docs
+                                    .elementAt(index)
+                                    .data()['quantity'] ??
+                                0),
                         onDeletePressed: () => onDelete(context,
                             APIPath.myBagItemId(user.uid, myBagItemId)),
                         quantity: snapshot.data.docs
@@ -208,6 +230,97 @@ class _BagPageState extends State<BagPage> {
                 return EmptyBag(onPressed: widget.onPressed);
               })
           : EmptyBag(onPressed: widget.onPressed),
+    );
+  }
+}
+
+class MyDialog extends StatefulWidget {
+  const MyDialog({Key key, this.quantity = 0, this.path}) : super(key: key);
+
+  final num quantity;
+  final String path;
+
+  @override
+  _MyDialogState createState() => _MyDialogState();
+}
+
+class _MyDialogState extends State<MyDialog> {
+  num q;
+
+  @override
+  void initState() {
+    super.initState();
+    q = widget.quantity;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text("Change Quantity"),
+      content: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          IconButton(
+            icon: Icon(
+              Icons.add_box,
+              color: CustomTheme.primaryColor,
+              size: 30,
+            ),
+            onPressed: () {
+              // q=quantity;
+              setState(() {
+                q += 1;
+              });
+            },
+          ),
+          Container(
+            width: 60,
+            height: 60,
+            child: Center(
+              child: Text(
+                "${q.toInt()}",
+                style: TextStyle(color: Colors.white, fontSize: 30),
+              ),
+            ),
+            decoration: BoxDecoration(
+                shape: BoxShape.circle, color: CustomTheme.primaryColor),
+          ),
+          IconButton(
+            icon: Icon(
+              Icons.indeterminate_check_box,
+              color: CustomTheme.primaryColor,
+              size: 30,
+            ),
+            onPressed: () {
+              setState(() {
+                if (q != 1) q -= 1;
+              });
+            },
+          ),
+        ],
+      ),
+      actions: <Widget>[
+        TextButton(
+            onPressed: () {
+              FirebaseFirestore.instance
+                  .doc(widget.path)
+                  .get()
+                  .then((DocumentSnapshot snapshot) async {
+                Map<String, dynamic> data = {"quantity": q};
+                snapshot.reference.update(data);
+              });
+              Navigator.of(context).pop(true);
+            },
+            child: const Text(
+              "Change",
+              style: TextStyle(color: Colors.redAccent),
+            )),
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(false),
+          child: const Text("Cancel"),
+        ),
+      ],
     );
   }
 }
