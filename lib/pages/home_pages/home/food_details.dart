@@ -56,17 +56,17 @@ class _FoodDetailPageState extends State<FoodDetailPage> {
     } else {
       final reference = FirebaseFirestore.instance.collection(APIPath.myBag(user.uid));
       String pathOfDish = "${APIPath.topFoods()}${widget.foodId}";
-      print(pathOfDish);
+      //print(pathOfDish);
       bool isOldData=false;
       FirebaseFirestore.instance
           .collection(APIPath.myBag(user.uid))
           .get()
           .then((QuerySnapshot querySnapshot) async {
         querySnapshot.docs.forEach((doc) {
-          print(doc.reference.path);
+          //print(doc.reference.path);
           String oldPath = doc["dishRef"].path;
           num oldQuantity = doc['quantity'];
-          print(doc["dishRef"].path);
+          //print(doc["dishRef"].path);
           if (oldPath == pathOfDish) {
             Map<String, dynamic> data = {
               "quantity": oldQuantity + (foodPrice / widget.foodPrice)

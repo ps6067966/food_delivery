@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery/constant/theme.dart';
 import 'package:food_delivery/models/food_model.dart';
 import 'package:food_delivery/pages/home_pages/bag/bag_items.dart';
+import 'package:food_delivery/pages/home_pages/bag/checkout.dart';
 import 'package:food_delivery/services/backend/api_path.dart';
 import 'package:food_delivery/widgets/custom_button.dart';
+import 'package:shimmer/shimmer.dart';
 import 'empty_bag.dart';
 
 class BagPage extends StatefulWidget {
@@ -20,9 +22,12 @@ class BagPage extends StatefulWidget {
 }
 
 class _BagPageState extends State<BagPage> {
+  List<FoodModel> listOfFoodModel;
+
   @override
   void initState() {
     super.initState();
+    listOfFoodModel = [];
   }
 
   Future<void> onDelete(BuildContext context, String path) async {
@@ -49,8 +54,9 @@ class _BagPageState extends State<BagPage> {
     );
     if (didRequestSignOut == true) {
       final reference = FirebaseFirestore.instance.doc(path);
-      print('delete: $path');
+      // print('delete: $path');
       await reference.delete();
+      setState(() {});
     }
   }
 
@@ -83,30 +89,48 @@ class _BagPageState extends State<BagPage> {
             ),
           ),
         ),
-        CustomButton(text: "Order Now", onPressed: () {}),
+        CustomButton(
+            text: "Order Now",
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Checkout(
+                            totalItems: totalItems,
+                            listOfFoodModel: listOfFoodModel,
+                        totalAmount: totalPrice,
+                          )));
+            }),
       ],
     );
   }
 
-  Widget listOfBagItems(BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot,User user){
+  Widget listOfBagItems(
+      BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot, User user) {
     int totalPrice = 0;
+    listOfFoodModel.clear();
     return ListView.builder(
         itemCount: snapshot.data.docs.length,
         itemBuilder: (context, index) {
-          DocumentReference ref = snapshot.data.docs.elementAt(index).data()['dishRef'];
+          DocumentReference ref =
+              snapshot.data.docs.elementAt(index).data()['dishRef'];
           String myBagItemId = snapshot.data.docs.elementAt(index).id;
           return StreamBuilder(
               stream: FirebaseFirestore.instance.doc(ref?.path).snapshots(),
-              builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snap) {
-                if (snap.hasError)
-                  return Center(child: Text("No data"));
+              builder:
+                  (BuildContext context, AsyncSnapshot<DocumentSnapshot> snap) {
+                if (snap.hasError) return Center(child: Text("No data"));
                 if (snap.hasData) {
                   final children = snap.data.data();
                   var f = FoodModel.fromJson(children);
-                  print(children);
-                  num dishPrice =f.foodPrice;
-                  num quantity = snapshot.data.docs.elementAt(index).data()['quantity'] ?? 0;
-                  totalPrice = totalPrice + (dishPrice.toInt() * quantity.toInt());
+                  //print(children);
+                  listOfFoodModel.add(f);
+                  num dishPrice = f.foodPrice;
+                  num quantity =
+                      snapshot.data.docs.elementAt(index).data()['quantity'] ??
+                          0;
+                  totalPrice =
+                      totalPrice + (dishPrice.toInt() * quantity.toInt());
                   return Column(
                     children: [
                       BagItems(
@@ -116,16 +140,29 @@ class _BagPageState extends State<BagPage> {
                         foodDeliveryTime: f.foodDeliveryTime,
                         foodPrice: f.foodPrice,
                         isDishVeg: f.isVeg,
-                        onDeletePressed: () => onDelete(context, APIPath.myBagItemId(user.uid, myBagItemId)),
-                        quantity: snapshot.data.docs.elementAt(index).data()['quantity'] ?? 0,
+                        onDeletePressed: () => onDelete(context,
+                            APIPath.myBagItemId(user.uid, myBagItemId)),
+                        quantity: snapshot.data.docs
+                                .elementAt(index)
+                                .data()['quantity'] ??
+                            0,
                       ),
                       if (index == snapshot.data.docs.length - 1)
-                        orderView(context, snapshot.data.docs.length, totalPrice)
+                        orderView(
+                            context, snapshot.data.docs.length, totalPrice)
                     ],
                   );
                 }
                 return Center(
-                  child: CircularProgressIndicator(),
+                  child: Shimmer.fromColors(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      height: 180,
+                      child: Card(),
+                    ),
+                    baseColor: Colors.grey[200],
+                    highlightColor: Colors.grey[350],
+                  ),
                 );
               });
         });
@@ -138,7 +175,9 @@ class _BagPageState extends State<BagPage> {
       backgroundColor: Colors.white,
       body: user?.uid != null
           ? StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance.collection(APIPath.myBag(user.uid)).snapshots(),
+              stream: FirebaseFirestore.instance
+                  .collection(APIPath.myBag(user.uid))
+                  .snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasError) return Text('Something went wrong');
@@ -147,7 +186,6 @@ class _BagPageState extends State<BagPage> {
                 if (snapshot.data.docs.length == 0)
                   return EmptyBag(onPressed: widget.onPressed);
                 if (snapshot.hasData) {
-                  int totalPrice = 0;
                   return Center(
                     child: Scaffold(
                       appBar: AppBar(
@@ -162,46 +200,7 @@ class _BagPageState extends State<BagPage> {
                       ),
                       backgroundColor: Colors.white,
                       body: Container(
-                        child:listOfBagItems(context, snapshot, user),
-                        // child: ListView.builder(
-                        //     itemCount: snapshot.data.docs.length,
-                        //     itemBuilder: (context, index) {
-                        //       DocumentReference ref = snapshot.data.docs.elementAt(index).data()['dishRef'];
-                        //       String myBagItemId = snapshot.data.docs.elementAt(index).id;
-                        //       return StreamBuilder(
-                        //           stream: FirebaseFirestore.instance.doc(ref?.path).snapshots(),
-                        //           builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snap) {
-                        //             if (snap.hasError)
-                        //               return Center(child: Text("No data"));
-                        //             if (snap.hasData) {
-                        //               final children = snap.data.data();
-                        //               var f = FoodModel.fromJson(children);
-                        //               print(children);
-                        //               num dishPrice =f.foodPrice;
-                        //               num quantity = snapshot.data.docs.elementAt(index).data()['quantity'] ?? 0;
-                        //               totalPrice = totalPrice + (dishPrice.toInt() * quantity.toInt());
-                        //               return Column(
-                        //                 children: [
-                        //                   BagItems(
-                        //                     foodUrl: f.foodUrl,
-                        //                     dishName: f.foodName,
-                        //                     foodDescription: f.foodIngredients,
-                        //                     foodDeliveryTime: f.foodDeliveryTime,
-                        //                     foodPrice: f.foodPrice,
-                        //                     isDishVeg: f.isVeg,
-                        //                     onDeletePressed: () => onDelete(context, APIPath.myBagItemId(user.uid, myBagItemId)),
-                        //                     quantity: snapshot.data.docs.elementAt(index).data()['quantity'] ?? 0,
-                        //                   ),
-                        //                   if (index == snapshot.data.docs.length - 1)
-                        //                     orderView(context, snapshot.data.docs.length, totalPrice)
-                        //                 ],
-                        //               );
-                        //             }
-                        //             return Center(
-                        //               child: CircularProgressIndicator(),
-                        //             );
-                        //           });
-                        //     }),
+                        child: listOfBagItems(context, snapshot, user),
                       ),
                     ),
                   );
