@@ -8,28 +8,29 @@ class FoodType extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: FFButtonWidget(
-        onPressed: () {
-          print('Button pressed ...');
-        },
-        text: foodName,
-        options: FFButtonOptions(
-          width: MediaQuery.of(context).size.width / 2.4,
-          height: 60,
-          color: Colors.white,
-          textStyle: CustomTheme.title2.override(
-            fontFamily: 'Poppins',
-            color: CustomTheme.primaryColor,
-            fontSize: 20,
-            fontWeight: FontWeight.w500,
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Container(
+        child: FFButtonWidget(
+          onPressed: () {},
+          text: foodName,
+          options: FFButtonOptions(
+            // width: MediaQuery.of(context).size.width *0.2,
+            height: 30,
+            color: Colors.white,
+            textStyle: CustomTheme.title2.override(
+              fontFamily: 'Poppins',
+              color: CustomTheme.primaryColor,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+            elevation: 0,
+            borderSide: BorderSide(
+              color: Color(0xFFB8B3B3),
+              width: 1,
+            ),
+            borderRadius: 20,
           ),
-          elevation: 0,
-          borderSide: BorderSide(
-            color: Color(0xFFB8B3B3),
-            width: 1,
-          ),
-          borderRadius: 20,
         ),
       ),
     );

@@ -283,32 +283,16 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Padding foodTypes(context) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-      child: Column(
+  Widget foodTypes(context) {
+    return SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
+      scrollDirection: Axis.horizontal,
+      child: Row(
         children: [
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              FoodType(foodName: "Snack"),
-              FoodType(foodName: "Meal"),
-            ],
-          ),
-          SizedBox(
-            height: 10.0,
-          ),
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              FoodType(foodName: "Breakfast"),
-              FoodType(foodName: "Drink"),
-            ],
-          )
+          FoodType(foodName: "Snack"),
+          FoodType(foodName: "Meal"),
+          FoodType(foodName: "Breakfast"),
+          FoodType(foodName: "Drink"),
         ],
       ),
     );

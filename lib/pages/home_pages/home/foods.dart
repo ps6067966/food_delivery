@@ -30,7 +30,7 @@ class Food extends StatelessWidget {
   final VoidCallback onImgPressed;
 
   _openDetail(context, name, url, foodDescription, foodDeliveryTime, foodPrice,
-      isDishVeg,foodId) {
+      isDishVeg, foodId) {
     final route = MaterialPageRoute(
       builder: (context) => FoodDetailPage(
         name: name,
@@ -61,8 +61,15 @@ class Food extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             InkWell(
-              onTap: () => _openDetail(context, dishName, foodUrl,
-                  foodDescription, foodDeliveryTime, foodPrice, isDishVeg,foodId),
+              onTap: () => _openDetail(
+                  context,
+                  dishName,
+                  foodUrl,
+                  foodDescription,
+                  foodDeliveryTime,
+                  foodPrice,
+                  isDishVeg,
+                  foodId),
               child: Hero(
                 tag: foodId,
                 child: ClipRRect(
@@ -153,7 +160,15 @@ class Food extends StatelessWidget {
                               style: TextButton.styleFrom(
                                 padding: EdgeInsets.all(0),
                               ),
-                              onPressed: onAddPressed,
+                              onPressed: () => _openDetail(
+                                  context,
+                                  dishName,
+                                  foodUrl,
+                                  foodDescription,
+                                  foodDeliveryTime,
+                                  foodPrice,
+                                  isDishVeg,
+                                  foodId),
                               icon: Icon(
                                 Icons.add_box,
                                 color: CustomTheme.primaryColor,
