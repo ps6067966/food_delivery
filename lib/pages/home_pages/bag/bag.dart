@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'empty_bag.dart';
+// import 'empty_bag.dart';
+import 'checkout.dart';
 
 class BagPage extends StatelessWidget {
   const BagPage({Key key, @required this.onPressed, this.isLoggedIn = false})
@@ -12,7 +13,7 @@ class BagPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: EmptyBag(onPressed: onPressed),
+      body: Checkout(),
     );
   }
 }
