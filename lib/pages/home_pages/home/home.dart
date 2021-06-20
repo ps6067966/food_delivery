@@ -15,9 +15,6 @@ import 'package:location/location.dart';
 
 import 'foods.dart';
 
-final CollectionReference dishesRef =
-    FirebaseFirestore.instance.collection('Dish');
-
 class HomePage extends StatefulWidget {
   const HomePage({
     Key key,
@@ -34,15 +31,16 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   TextEditingController searchTextController;
   String name;
-  List<dynamic> dishes = [];
   ScrollController _scrollViewController;
   bool _showAppbar = true;
   bool isScrollingDown = false;
   String myAddress="";
 
+  /// for backend purpose ,done run this
+  void addToFirestore(){}
+
   @override
   void initState() {
-    getDishes();
     super.initState();
     getUserLocation();
     searchTextController = TextEditingController();
@@ -68,13 +66,6 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  getDishes() async {
-    final QuerySnapshot dishesSnapshot = await dishesRef.get();
-    setState(() {
-      dishes = dishesSnapshot.docs;
-    });
-  }
-
   getUserLocation() async {
     LocationData myLocation;
     String error;
@@ -97,9 +88,9 @@ class _HomePageState extends State<HomePage> {
     var addresses =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
     var first = addresses.first;
-    print(' ${first.locality}, ${first.adminArea},${first.subLocality},'
-        ' ${first.subAdminArea},${first.addressLine}, ${first.featureName},'
-        '${first.thoroughfare}, ${first.subThoroughfare}');
+    // print(' ${first.locality}, ${first.adminArea},${first.subLocality},'
+    //     ' ${first.subAdminArea},${first.addressLine}, ${first.featureName},'
+    //     '${first.thoroughfare}, ${first.subThoroughfare}');
     setState(() {
       myAddress="${first.addressLine},";
     });
@@ -178,13 +169,15 @@ class _HomePageState extends State<HomePage> {
               child: HomeHeading(headText: "Explore"),
             ),
             StreamBuilder(
-              stream: dishesRef.snapshots(),
+              stream: FirebaseFirestore.instance.collection('Dish').snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return CircularProgressIndicator();
                 } else {
                   final children = snapshot.data.docs.map<Widget>((doc) {
+                    // print("${snapshot.data.docs}");
                     return Food(
+                      foodId: doc['dishId'],
                       foodUrl: doc['dishPhotoUrl'],
                       dishName: doc['dishName'],
                       foodDescription: doc['dishIngredients'],

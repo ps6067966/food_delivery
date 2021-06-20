@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/constant/theme.dart';
@@ -14,9 +15,11 @@ class Food extends StatelessWidget {
       @required this.foodPrice,
       @required this.isDishVeg,
       this.onAddPressed,
-      this.onImgPressed})
+      this.onImgPressed,
+      @required this.foodId})
       : super(key: key);
 
+  final String foodId;
   final String foodUrl;
   final String dishName;
   final String foodDescription;
@@ -27,7 +30,7 @@ class Food extends StatelessWidget {
   final VoidCallback onImgPressed;
 
   _openDetail(context, name, url, foodDescription, foodDeliveryTime, foodPrice,
-      isDishVeg) {
+      isDishVeg,foodId) {
     final route = MaterialPageRoute(
       builder: (context) => FoodDetailPage(
         name: name,
@@ -36,6 +39,7 @@ class Food extends StatelessWidget {
         foodDeliveryTime: foodDeliveryTime,
         foodPrice: foodPrice,
         isDishVeg: isDishVeg,
+        foodId: foodId,
       ),
     );
     Navigator.push(context, route);
@@ -43,12 +47,11 @@ class Food extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return Padding(
       padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
       child: Container(
-        width: MediaQuery.of(context).size.width /4,
-        height: 150,
+        width: MediaQuery.of(context).size.width / 4,
+        height: 160,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
@@ -59,15 +62,15 @@ class Food extends StatelessWidget {
           children: [
             InkWell(
               onTap: () => _openDetail(context, dishName, foodUrl,
-                  foodDescription, foodDeliveryTime, foodPrice, isDishVeg),
+                  foodDescription, foodDeliveryTime, foodPrice, isDishVeg,foodId),
               child: Hero(
-                tag: dishName,
+                tag: foodId,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: Image.network(
-                    foodUrl,
+                  child: CachedNetworkImage(
+                    imageUrl: foodUrl,
                     width: MediaQuery.of(context).size.width / 2.5,
-                    height: 140,
+                    height: 135,
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -86,7 +89,7 @@ class Food extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                              padding: EdgeInsets.only(left: 10, top: 15),
+                              padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                               child: Text(
                                 dishName,
                                 maxLines: 3,
@@ -94,24 +97,19 @@ class Food extends StatelessWidget {
                                 style: CustomTheme.bodyText1.override(
                                   color: Colors.black,
                                   fontFamily: 'Poppins',
-                                  fontSize: 14,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(right: 10.0, top: 10),
-                              child: Container(
-                                width: 20,
-                                height: 20,
-                                child: Image(
-                                  image: AssetImage(isDishVeg
-                                      ? 'assets/images/veg.jpg'
-                                      : 'assets/images/nonVeg.jpg'),
-                                  fit: BoxFit.scaleDown,
-                                  color: null,
-                                ),
+                            Container(
+                              width: 20,
+                              height: 20,
+                              child: Image(
+                                image: AssetImage(isDishVeg
+                                    ? 'assets/images/veg.jpg'
+                                    : 'assets/images/nonVeg.jpg'),
+                                fit: BoxFit.scaleDown,
                               ),
                             ),
                           ],
@@ -132,7 +130,7 @@ class Food extends StatelessWidget {
                             '$foodDeliveryTime min',
                             style: CustomTheme.bodyText1.override(
                               fontFamily: 'Poppins',
-                              fontSize: 13,
+                              fontSize: 10,
                             ),
                           ),
                         ),

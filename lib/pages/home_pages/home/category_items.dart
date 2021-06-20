@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/constant/theme.dart';
 
@@ -22,8 +23,8 @@ class CategoryItem extends StatelessWidget {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
             ),
-            child: Image.network(
-              url,
+            child: CachedNetworkImage(
+              imageUrl: url,
               fit: BoxFit.cover,
             ),
           ),

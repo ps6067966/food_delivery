@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/constant/theme.dart';
 import 'package:food_delivery/services/auth/auth_util.dart';
@@ -19,8 +20,8 @@ class MyAccount extends StatelessWidget {
             width: width,
             child: Stack(
               children: <Widget>[
-                Image.network(
-                  'https://images.unsplash.com/photo-1505935428862-770b6f24f629?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fGZvb2QlMjBwbGF0ZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+                CachedNetworkImage(
+                  imageUrl: 'https://images.unsplash.com/photo-1505935428862-770b6f24f629?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fGZvb2QlMjBwbGF0ZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
                   width: width,
                   height: imgheight,
                   fit: BoxFit.fill,

@@ -1,7 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:food_delivery/constant/theme.dart';
+import 'package:food_delivery/services/backend/api_path.dart';
 import 'package:food_delivery/widgets/custom_button.dart';
 
 class FoodDetailPage extends StatefulWidget {
@@ -14,6 +17,7 @@ class FoodDetailPage extends StatefulWidget {
   final VoidCallback onAddPressed;
   final VoidCallback onImgPressed;
   final bool isLoggedIn;
+  final String foodId;
 
   FoodDetailPage(
       {this.name,
@@ -24,7 +28,10 @@ class FoodDetailPage extends StatefulWidget {
       this.foodPrice = 0,
       this.isDishVeg = false,
       this.onAddPressed,
-      this.onImgPressed, this.isLoggedIn=false});
+      this.onImgPressed,
+      this.isLoggedIn = false,
+      @required this.foodId});
+
   @override
   _FoodDetailPageState createState() => _FoodDetailPageState();
 }
@@ -38,6 +45,52 @@ class _FoodDetailPageState extends State<FoodDetailPage> {
     foodPrice = widget.foodPrice;
   }
 
+  Future<void> addToBag(BuildContext context) async {
+    var user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('You are not Logged in')),
+      );
+      return;
+    } else {
+      final reference = FirebaseFirestore.instance.collection(APIPath.myBag(user.uid));
+      String pathOfDish = "Dish/${widget.foodId}";
+      print(pathOfDish);
+      bool isOldData=false;
+      FirebaseFirestore.instance
+          .collection(APIPath.myBag(user.uid))
+          .get()
+          .then((QuerySnapshot querySnapshot) async {
+        querySnapshot.docs.forEach((doc) {
+          print(doc.reference.path);
+          String oldPath = doc["dishRef"].path;
+          num oldQuantity = doc['quantity'];
+          print(doc["dishRef"].path);
+          if (oldPath == pathOfDish) {
+            Map<String, dynamic> data = {
+              "quantity": oldQuantity + (foodPrice / widget.foodPrice)
+            };
+            doc.reference.update(data);
+            isOldData=true;
+          }
+        });
+        if (!isOldData) {
+          DocumentReference refer = FirebaseFirestore.instance.doc(pathOfDish);
+          Map<String, dynamic> data = {
+            "dishRef": refer,
+            "quantity": foodPrice / widget.foodPrice
+          };
+          await reference.add(data);
+        }
+      });
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Added to Bag')));
+      Navigator.pop(context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,9 +102,9 @@ class _FoodDetailPageState extends State<FoodDetailPage> {
               height: 300,
               width: MediaQuery.of(context).size.width,
               child: Hero(
-                tag: widget.name,
-                child: Image.network(
-                  widget.url,
+                tag: widget.foodId,
+                child: CachedNetworkImage(
+                  imageUrl: widget.url,
                   fit: BoxFit.fill,
                 ),
               ),
@@ -269,23 +322,7 @@ class _FoodDetailPageState extends State<FoodDetailPage> {
                                   SocialButton(
                                       icon: FaIcon(Icons.shopping_bag_outlined),
                                       text: "Add to Bag",
-                                      onPressed: () {
-                                        print(foodPrice);
-                                        var user = FirebaseAuth.instance.currentUser;
-                                        if (user == null) {
-                                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                                          ScaffoldMessenger.of(context).showSnackBar(
-                                            SnackBar(content: Text('You are not Logged in')),
-                                          );
-                                          return;
-                                        }else{
-                                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                                          ScaffoldMessenger.of(context).showSnackBar(
-                                            SnackBar(content: Text('Added to Bag')),
-                                          );
-                                          Navigator.pop(context);
-                                        }
-                                      },
+                                      onPressed: () async => addToBag(context),
                                       color: CustomTheme.primaryColor)
                                 ],
                               ),

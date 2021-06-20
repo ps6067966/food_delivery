@@ -122,7 +122,6 @@ class _NavBarPageState extends State<NavBarPage> {
           onTap: (i) => setState(() {
             if (i == 1 || i == 0) {
               tabNumber = i;
-              print(tabNumber);
             }
             if (i == 2) {
               _innerDrawerKey.currentState
