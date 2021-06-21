@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:food_delivery/constant/theme.dart';
 import 'package:food_delivery/pages/auth_pages/login.dart';
+import 'package:food_delivery/pages/auth_pages/email_verify.dart';
 import 'package:food_delivery/services/auth/auth_util.dart';
 import 'package:food_delivery/widgets/custom_button.dart';
 import 'package:food_delivery/widgets/custom_check_box.dart';
 import 'package:food_delivery/widgets/custom_text_field.dart';
-import '../home_pages/nav_bar_page.dart';
 
 class SignUpScreen extends StatefulWidget {
   SignUpScreen({Key key}) : super(key: key);
@@ -209,8 +209,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     onPressed: () {},
                                     child: Text(
                                       'Terms & Conditions',
-                                      style:
-                                          CustomTheme.bodyText1.override(
+                                      style: CustomTheme.bodyText1.override(
                                         fontFamily: 'Poppins',
                                         color: Color(0xFFFFB90B),
                                         fontSize: 12,
@@ -234,18 +233,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     emailTextController.text,
                                     passwordTextController.text,
                                   );
+
+                                  if (user != null && !user.emailVerified) {
+                                    await Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            VerifyScreen(),
+                                      ),
+                                    );
+                                  }
+
                                   if (user == null) {
                                     return;
                                   }
-
-                                  await Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          NavBarPage(initialPage: 'HomePage',isLoggedIn: true,),
-                                    ),
-                                    (r) => false,
-                                  );
                                 }
                               }),
 
