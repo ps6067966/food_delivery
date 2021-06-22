@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/material.dart';
 
 // ignore: avoid_classes_with_only_static_members
 class CustomTheme {
@@ -11,56 +11,56 @@ class CustomTheme {
   String secondaryFontFamily = 'Roboto';
 
   static TextStyle get title1 => GoogleFonts.getFont(
-    'Playfair Display',
-    color: Colors.black,
-    fontWeight: FontWeight.w600,
-    fontSize: 22,
-  );
+        'Playfair Display',
+        color: Colors.black,
+        fontWeight: FontWeight.w600,
+        fontSize: 22,
+      );
   static TextStyle get title2 => GoogleFonts.getFont(
-    'Poppins',
-    color: Color(0xFF303030),
-    fontWeight: FontWeight.w500,
-    fontSize: 22,
-  );
+        'Poppins',
+        color: Color(0xFF303030),
+        fontWeight: FontWeight.w500,
+        fontSize: 22,
+      );
   static TextStyle get title3 => GoogleFonts.getFont(
-    'Poppins',
-    color: Color(0xFF303030),
-    fontWeight: FontWeight.w500,
-    fontSize: 20,
-  );
+        'Poppins',
+        color: Color(0xFF303030),
+        fontWeight: FontWeight.w500,
+        fontSize: 20,
+      );
   static TextStyle get subtitle1 => GoogleFonts.getFont(
-    'Playfair Display',
-    color: secondaryColor,
-    fontWeight: FontWeight.w500,
-    fontSize: 16,
-  );
+        'Playfair Display',
+        color: secondaryColor,
+        fontWeight: FontWeight.w500,
+        fontSize: 16,
+      );
   static TextStyle get subtitle2 => GoogleFonts.getFont(
-    'Poppins',
-    color: Color(0xFF616161),
-    fontWeight: FontWeight.normal,
-    fontSize: 16,
-  );
+        'Poppins',
+        color: Color(0xFF616161),
+        fontWeight: FontWeight.normal,
+        fontSize: 16,
+      );
   static TextStyle get bodyText1 => GoogleFonts.getFont(
-    'Playfair Display',
-    color: tertiaryColor,
-    fontWeight: FontWeight.normal,
-    fontSize: 14,
-  );
+        'Playfair Display',
+        color: tertiaryColor,
+        fontWeight: FontWeight.normal,
+        fontSize: 14,
+      );
   static TextStyle get bodyText2 => GoogleFonts.getFont(
-    'Playfair Display',
-    color: Colors.black,
-    fontWeight: FontWeight.normal,
-    fontSize: 14,
-  );
+        'Playfair Display',
+        color: Colors.black,
+        fontWeight: FontWeight.normal,
+        fontSize: 14,
+      );
 }
 
 extension TextStyleHelper on TextStyle {
   TextStyle override(
-      {String fontFamily,
-        Color color,
-        double fontSize,
-        FontWeight fontWeight,
-        FontStyle fontStyle}) =>
+          {String fontFamily,
+          Color color,
+          double fontSize,
+          FontWeight fontWeight,
+          FontStyle fontStyle}) =>
       GoogleFonts.getFont(
         fontFamily,
         color: color ?? this.color,

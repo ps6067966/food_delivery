@@ -3,8 +3,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:food_delivery/constant/theme.dart';
 import 'package:food_delivery/models/food_model.dart';
 import 'package:food_delivery/widgets/custom_button.dart';
-
+import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:food_delivery/services/auth/auth_util.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'checkout_foods.dart';
+import 'package:food_delivery/pages/home_pages/nav_bar_page.dart';
+import 'package:food_delivery/services/auth/firebase_user_provider.dart';
+import 'package:food_delivery/pages/home_pages/home/home.dart';
+
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Checkout extends StatefulWidget {
   Checkout(
@@ -23,6 +30,114 @@ class Checkout extends StatefulWidget {
 }
 
 class _CheckoutState extends State<Checkout> {
+  Razorpay razorpay;
+
+  @override
+  void initState() {
+    super.initState();
+    razorpay = Razorpay();
+    razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, handlerPaymentSuccess);
+    razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, handlerPaymentError);
+    razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, handlerExternalWallet);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    razorpay.clear();
+  }
+
+  void openCheckOut() {
+    var options = {
+      'key': 'rzp_test_lwsna0wDsghd4w',
+      'amount': (widget.totalAmount + 40) * 100,
+      'name': "AA HAA INN",
+      'description': "Payment for your food",
+      'prefill': {
+        'contact': '8130163847',
+        'email': currentUserEmail,
+      },
+      'external': {
+        'wallets': ['paytm']
+      }
+    };
+
+    try {
+      razorpay.open(options);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  void handlerPaymentSuccess(PaymentSuccessResponse response) async {
+    List<Map> foodDetails = [];
+    List<Map> fds = [];
+    for (int i = 0; i < widget.listOfFoodModel.length; i++) {
+      foodDetails.add({
+        'foodId': widget.listOfFoodModel[i].foodId,
+        'foodName': widget.listOfFoodModel[i].foodName,
+        'foodPrice': widget.listOfFoodModel[i].foodPrice,
+      });
+      fds.add({
+        'foodId': widget.listOfFoodModel[i].foodId,
+        'foodName': widget.listOfFoodModel[i].foodName,
+        'foodPrice': widget.listOfFoodModel[i].foodPrice,
+      });
+    }
+
+    await FirebaseFirestore.instance
+        .collection("admin")
+        .doc("orders")
+        .collection("details")
+        .doc(response.paymentId)
+        .set({
+      'userId': currentUserUid,
+      //'deliveryAddress': ,
+      'paymentId': response.paymentId,
+      'timeStamp': DateTime.now(),
+      'price': widget.totalAmount,
+      'items': FieldValue.arrayUnion(foodDetails),
+      'isDelivered': false,
+      'address': '',
+    });
+
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(currentUserUid)
+        .collection("orders")
+        .doc(response.paymentId)
+        .set({
+      'foodDetails': FieldValue.arrayUnion(fds),
+      'timeStamp': DateTime.now(),
+      'price': widget.totalAmount,
+      'isDelivered': false,
+      'address': '',
+    });
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(currentUserUid)
+        .collection('myBag')
+        .get()
+        .then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
+        ds.reference.delete();
+      }
+    });
+    Route route = MaterialPageRoute(
+        builder: (c) => NavBarPage(
+              isLoggedIn: currentUser.loggedIn,
+            ));
+    Navigator.pushReplacement(context, route);
+  }
+
+  void handlerPaymentError() {
+    print("errorrrr");
+  }
+
+  void handlerExternalWallet() {
+    print("ew");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -252,7 +367,9 @@ class _CheckoutState extends State<Checkout> {
                             SocialButton(
                                 icon: FaIcon(FontAwesomeIcons.chevronRight),
                                 text: "Place Order",
-                                onPressed: () {},
+                                onPressed: () {
+                                  openCheckOut();
+                                },
                                 color: CustomTheme.primaryColor),
                             SizedBox(
                               height: 60,
