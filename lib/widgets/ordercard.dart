@@ -11,22 +11,28 @@ double width;
 class OrderCard extends StatelessWidget {
   final int itemCount;
   final String orderId;
-  final List<DocumentSnapshot> data;
+  final DocumentSnapshot data;
+  ItemModel model;
 
   OrderCard({Key key, this.itemCount, this.orderId, this.data})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    List<Map> foodDetails = List.from(data.data()['foodDetails']);
+    model = ItemModel.fromJson(data.data());
+    width = MediaQuery.of(context).size.width;
     return Padding(
-      padding: EdgeInsets.only(top: 20.0),
+      padding: EdgeInsets.only(
+        top: 20.0,
+      ),
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "7 June, Mon",
+                model.dateDay,
                 style: TextStyle(
                   color: Colors.grey.shade500,
                   fontSize: 14.0,
@@ -50,8 +56,7 @@ class OrderCard extends StatelessWidget {
               itemCount: itemCount,
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (c, index) {
-                ItemModel model = ItemModel.fromJson(data[index].data());
-                return sourceOrderInfo(model, context);
+                return sourceOrderInfo(model, foodDetails, index, context);
               },
             ),
           ),
@@ -61,10 +66,9 @@ class OrderCard extends StatelessWidget {
   }
 }
 
-Widget sourceOrderInfo(ItemModel model, BuildContext context,
+Widget sourceOrderInfo(
+    ItemModel model, List<Map> foodDetails, int index, BuildContext context,
     {Color background, removeCartFunction}) {
-  width = MediaQuery.of(context).size.width;
-
   return Container(
     padding: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
     color: Colors.white,
@@ -81,7 +85,7 @@ Widget sourceOrderInfo(ItemModel model, BuildContext context,
             children: [
               Container(
                 child: Text(
-                  model.title,
+                  foodDetails[index]['foodName'],
                   style: TextStyle(
                     color: Colors.grey.shade500,
                     fontSize: 20.0,
@@ -96,7 +100,7 @@ Widget sourceOrderInfo(ItemModel model, BuildContext context,
                 width: 20,
                 height: 20,
                 child: Image(
-                  image: AssetImage(model.isVeg == true
+                  image: AssetImage(foodDetails[index]['isVeg'] == true
                       ? 'assets/images/veg.jpg'
                       : 'assets/images/nonVeg.jpg'),
                   fit: BoxFit.scaleDown,
@@ -125,7 +129,7 @@ Widget sourceOrderInfo(ItemModel model, BuildContext context,
                           ),
                         ),
                         Text(
-                          model.price.toString(),
+                          foodDetails[index]['foodPrice'].toString(),
                           style: TextStyle(
                             fontSize: 18.0,
                             color: Colors.black,
@@ -152,7 +156,7 @@ Widget sourceOrderInfo(ItemModel model, BuildContext context,
             height: 10.0,
           ),
           Text(
-            "Prashant Vihar, Delhi",
+            model.address,
             style: TextStyle(
               color: Colors.grey.shade500,
               fontSize: 14.0,
@@ -164,11 +168,21 @@ Widget sourceOrderInfo(ItemModel model, BuildContext context,
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              FButton(title: 'REORDER', width: width * 0.35),
+              Expanded(
+                child: FButton(
+                  title: 'REORDER',
+                  width: 1000,
+                ),
+              ),
               SizedBox(
                 width: 25.0,
               ),
-              FButton(title: 'Rate Food', width: width * 0.35),
+              Expanded(
+                child: FButton(
+                  title: 'Rate Food',
+                  width: 1000,
+                ),
+              ),
             ],
           ),
         ],

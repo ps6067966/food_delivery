@@ -10,7 +10,6 @@ class FButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ButtonTheme(
-      height: 45.0,
       minWidth: width,
       child: TextButton(
         style: ButtonStyle(

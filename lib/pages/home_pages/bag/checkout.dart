@@ -10,7 +10,11 @@ import 'checkout_foods.dart';
 import 'package:food_delivery/pages/home_pages/nav_bar_page.dart';
 import 'package:food_delivery/services/auth/firebase_user_provider.dart';
 import 'package:food_delivery/pages/home_pages/home/home.dart';
-
+import 'package:geocoder/geocoder.dart';
+import 'package:location/location.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class Checkout extends StatefulWidget {
@@ -31,14 +35,106 @@ class Checkout extends StatefulWidget {
 
 class _CheckoutState extends State<Checkout> {
   Razorpay razorpay;
+  String myAddress = "";
+  String finalDateDay = '';
 
   @override
   void initState() {
     super.initState();
+    getUserLocation();
+    getDateDay();
     razorpay = Razorpay();
     razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, handlerPaymentSuccess);
     razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, handlerPaymentError);
     razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, handlerExternalWallet);
+  }
+
+  getDateDay() async {
+    var date = new DateTime.now().toString();
+    var dateParse = DateTime.parse(date);
+    String month;
+
+    for (int i = 1; i <= 12; i++) {
+      if ({dateParse.month} == 1)
+        month = "Jan";
+      else if ({dateParse.month} == 2)
+        month = "Feb";
+      else if ({dateParse.month} == 3)
+        month = "Mar";
+      else if ({dateParse.month} == 4)
+        month = "Apr";
+      else if ({dateParse.month} == 5)
+        month = "May";
+      else if ({dateParse.month} == 6)
+        month = "June";
+      else if ({dateParse.month} == 7)
+        month = "July";
+      else if ({dateParse.month} == 8)
+        month = "Aug";
+      else if ({dateParse.month} == 9)
+        month = "Sep";
+      else if ({dateParse.month} == 10)
+        month = "Oct";
+      else if ({dateParse.month} == 11)
+        month = "Nov";
+      else
+        month = "Dec";
+    }
+
+    var now = new DateTime.now();
+    String day;
+    for (int i = 1; i <= 7; i++) {
+      if (now.weekday == 1)
+        day = "Mon";
+      else if (now.weekday == 2)
+        day = "Tue";
+      else if (now.weekday == 3)
+        day = "Wed";
+      else if (now.weekday == 4)
+        day = "Thur";
+      else if (now.weekday == 5)
+        day = "Fri";
+      else if (now.weekday == 6)
+        day = "Sat";
+      else
+        day = "Sun";
+    }
+
+    var formattedDate = "${dateParse.day} $month, $day";
+    setState(() {
+      finalDateDay = formattedDate.toString();
+    });
+  }
+
+  getUserLocation() async {
+    LocationData myLocation;
+    String error;
+    Location location = new Location();
+    try {
+      myLocation = await location.getLocation();
+    } on PlatformException catch (e) {
+      if (e.code == 'PERMISSION_DENIED') {
+        error = 'please grant permission';
+        print(error);
+      }
+      if (e.code == 'PERMISSION_DENIED_NEVER_ASK') {
+        error = 'permission denied- please enable it from app settings';
+        print(error);
+      }
+      myLocation = null;
+    }
+    final coordinates =
+        new Coordinates(myLocation.latitude, myLocation.longitude);
+    var addresses =
+        await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    var first = addresses.first;
+    // print(' ${first.locality}, ${first.adminArea},${first.subLocality},'
+    //     ' ${first.subAdminArea},${first.addressLine}, ${first.featureName},'
+    //     '${first.thoroughfare}, ${first.subThoroughfare}');
+    setState(() {
+      myAddress = "${first.addressLine},";
+    });
+    return first;
   }
 
   @override
@@ -77,11 +173,13 @@ class _CheckoutState extends State<Checkout> {
         'foodId': widget.listOfFoodModel[i].foodId,
         'foodName': widget.listOfFoodModel[i].foodName,
         'foodPrice': widget.listOfFoodModel[i].foodPrice,
+        'isVeg': widget.listOfFoodModel[i].isVeg,
       });
       fds.add({
         'foodId': widget.listOfFoodModel[i].foodId,
         'foodName': widget.listOfFoodModel[i].foodName,
         'foodPrice': widget.listOfFoodModel[i].foodPrice,
+        'isVeg': widget.listOfFoodModel[i].isVeg,
       });
     }
 
@@ -95,10 +193,12 @@ class _CheckoutState extends State<Checkout> {
       //'deliveryAddress': ,
       'paymentId': response.paymentId,
       'timeStamp': DateTime.now(),
+      'DateDay': "$finalDateDay",
       'price': widget.totalAmount,
       'items': FieldValue.arrayUnion(foodDetails),
       'isDelivered': false,
-      'address': '',
+      'totalItems': widget.totalItems,
+      'address': '$myAddress',
     });
 
     await FirebaseFirestore.instance
@@ -109,9 +209,11 @@ class _CheckoutState extends State<Checkout> {
         .set({
       'foodDetails': FieldValue.arrayUnion(fds),
       'timeStamp': DateTime.now(),
+      'DateDay': "$finalDateDay",
       'price': widget.totalAmount,
       'isDelivered': false,
-      'address': '',
+      'totalItems': widget.totalItems,
+      'address': '$myAddress',
     });
     await FirebaseFirestore.instance
         .collection("users")
