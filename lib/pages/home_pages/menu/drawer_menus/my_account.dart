@@ -1,10 +1,31 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/constant/theme.dart';
+import 'package:food_delivery/pages/home_pages/menu/drawer_menus/contact_details.dart';
 import 'package:food_delivery/services/auth/auth_util.dart';
 
-class MyAccount extends StatelessWidget {
+class MyAccount extends StatefulWidget {
   const MyAccount({Key key}) : super(key: key);
+
+  @override
+  _MyAccountState createState() => _MyAccountState();
+}
+
+class _MyAccountState extends State<MyAccount> {
+  String phoneNumber;
+  @override
+  void initState() {
+    super.initState();
+    DocumentReference ref =
+    FirebaseFirestore.instance.collection('users').doc(currentUserUid);
+    ref.snapshots().first.then((DocumentSnapshot snapshot) {
+      var data = snapshot.data();
+      setState(() {
+        phoneNumber=data["phoneNum"] ?? "not added";
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,15 +48,15 @@ class MyAccount extends StatelessWidget {
                   fit: BoxFit.fill,
                 ),
                 Positioned(
-                  top: 30,
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.arrow_back_ios_rounded,
-                      size: 30,
-                      color: Colors.white,
-                    ),
-                    onPressed: () => {Navigator.pop(context)},
-                  )
+                    top: 30,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.arrow_back_ios_rounded,
+                        size: 30,
+                        color: Colors.white,
+                      ),
+                      onPressed: () => {Navigator.pop(context)},
+                    )
                 ),
                 Positioned(
                   bottom: 0,
@@ -48,7 +69,7 @@ class MyAccount extends StatelessWidget {
                         color: CustomTheme.primaryColor,
                         image: DecorationImage(
                           image: NetworkImage(
-                           currentUserPhoto,
+                            currentUserPhoto,
                           ),
                           fit: BoxFit.cover,
                         ),
@@ -65,11 +86,11 @@ class MyAccount extends StatelessWidget {
             height: 12,
           ),
           Text(
-            currentUserDisplayName,
-            style: CustomTheme.title1.override(
-              fontFamily: 'Poppins',
-              fontSize: 20
-            )
+              currentUserDisplayName,
+              style: CustomTheme.title1.override(
+                  fontFamily: 'Poppins',
+                  fontSize: 20
+              )
           ),
           SizedBox(
             height: 25,
@@ -81,20 +102,21 @@ class MyAccount extends StatelessWidget {
               children: <Widget>[
                 Divider(color: Colors.blueGrey[200]),
                 ListTile(
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => ContactDetails())),
                   visualDensity: VisualDensity.comfortable,
                   title: Text(
                     'Contact Details',
                     style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w500,
-                      fontSize: 20
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 20
                     ),
                   ),
                   subtitle: Text(
-                    currentUserEmail + '\n(+91)1234567890',
+                    currentUserEmail + '\n(+91)$phoneNumber',
                     style: CustomTheme.subtitle2.override(
-                      fontFamily: 'Poppins',
-                      fontSize: 12
+                        fontFamily: 'Poppins',
+                        fontSize: 12
                     ),
                   ),
                   trailing: Icon(
@@ -109,16 +131,16 @@ class MyAccount extends StatelessWidget {
                   title: Text(
                     'Address',
                     style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w500,
-                      fontSize: 20
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 20
                     ),
                   ),
                   subtitle: Text(
                     'DIPNI DEPARTMENT, DTC Colony, Pitam Pura, Delhi, 110034',
                     style: CustomTheme.subtitle2.override(
-                      fontFamily: 'Poppins',
-                      fontSize: 12
+                        fontFamily: 'Poppins',
+                        fontSize: 12
                     ),
                   ),
                   trailing: Icon(
@@ -133,9 +155,9 @@ class MyAccount extends StatelessWidget {
                   title: Text(
                     'Payments and Refunds',
                     style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w500,
-                      fontSize: 20
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 20
                     ),
                   ),
                   trailing: Icon(
@@ -150,9 +172,9 @@ class MyAccount extends StatelessWidget {
                   title: Text(
                     'Reviews and Photos',
                     style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w500,
-                      fontSize: 20
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 20
                     ),
                   ),
                   trailing: Icon(
