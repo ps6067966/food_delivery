@@ -35,7 +35,7 @@ class Checkout extends StatefulWidget {
 
 class _CheckoutState extends State<Checkout> {
   Razorpay razorpay;
-  String myAddress = "";
+  String myAddress;
   String finalDateDay = '';
 
   @override
@@ -50,32 +50,34 @@ class _CheckoutState extends State<Checkout> {
   }
 
   getDateDay() async {
-    var date = new DateTime.now().toString();
+    /*var date = new DateTime.now().toString();
     var dateParse = DateTime.parse(date);
     String month;
-
+     */
+    var date = new DateTime.now();
+    String month;
     for (int i = 1; i <= 12; i++) {
-      if ({dateParse.month} == 1)
+      if (date.month == 1)
         month = "Jan";
-      else if ({dateParse.month} == 2)
+      else if (date.month == 2)
         month = "Feb";
-      else if ({dateParse.month} == 3)
+      else if (date.month == 3)
         month = "Mar";
-      else if ({dateParse.month} == 4)
+      else if (date.month == 4)
         month = "Apr";
-      else if ({dateParse.month} == 5)
+      else if (date.month == 5)
         month = "May";
-      else if ({dateParse.month} == 6)
+      else if (date.month == 6)
         month = "June";
-      else if ({dateParse.month} == 7)
+      else if (date.month == 7)
         month = "July";
-      else if ({dateParse.month} == 8)
+      else if (date.month == 8)
         month = "Aug";
-      else if ({dateParse.month} == 9)
+      else if (date.month == 9)
         month = "Sep";
-      else if ({dateParse.month} == 10)
+      else if (date.month == 10)
         month = "Oct";
-      else if ({dateParse.month} == 11)
+      else if (date.month == 11)
         month = "Nov";
       else
         month = "Dec";
@@ -100,14 +102,22 @@ class _CheckoutState extends State<Checkout> {
         day = "Sun";
     }
 
-    var formattedDate = "${dateParse.day} $month, $day";
+    var formattedDate = "${date.day} $month, $day";
     setState(() {
       finalDateDay = formattedDate.toString();
     });
   }
 
   getUserLocation() async {
-    LocationData myLocation;
+    DocumentReference ref =
+        FirebaseFirestore.instance.collection('users').doc(currentUserUid);
+    ref.snapshots().first.then((DocumentSnapshot snapshot) {
+      var data = snapshot.data();
+      setState(() {
+        myAddress = data["Address"] ?? "not added";
+      });
+    });
+    /*LocationData myLocation;
     String error;
     Location location = new Location();
     try {
@@ -135,6 +145,7 @@ class _CheckoutState extends State<Checkout> {
       myAddress = "${first.addressLine},";
     });
     return first;
+     */
   }
 
   @override

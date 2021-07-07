@@ -4,22 +4,22 @@ import 'package:food_delivery/constant/theme.dart';
 import 'package:food_delivery/services/auth/auth_util.dart';
 import 'package:food_delivery/widgets/custom_button.dart';
 
-class ContactDetails extends StatefulWidget {
-  const ContactDetails({Key key}) : super(key: key);
+class AddressDetails extends StatefulWidget {
+  const AddressDetails({Key key}) : super(key: key);
 
   @override
-  _ContactDetailsState createState() => _ContactDetailsState();
+  _AddressDetailsState createState() => _AddressDetailsState();
 }
 
-class _ContactDetailsState extends State<ContactDetails> {
+class _AddressDetailsState extends State<AddressDetails> {
   bool isEnabled = false;
-  String phoneNumber;
+  String address;
   final _formKey = GlobalKey<FormState>();
 
   void onSave() {
     DocumentReference ref =
         FirebaseFirestore.instance.collection('users').doc(currentUserUid);
-    ref.update({"phoneNum": phoneNumber});
+    ref.update({"Address": address});
   }
 
   @override
@@ -30,14 +30,14 @@ class _ContactDetailsState extends State<ContactDetails> {
     ref.snapshots().first.then((DocumentSnapshot snapshot) {
       var data = snapshot.data();
       setState(() {
-        phoneNumber = data["phoneNum"] ?? "";
+        address = data["Address"] ?? "";
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    print(phoneNumber);
+    print(address);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -51,7 +51,7 @@ class _ContactDetailsState extends State<ContactDetails> {
           },
         ),
         title: Text(
-          "Contact Details",
+          "Address",
           style: TextStyle(
             color: CustomTheme.primaryColor,
           ),
@@ -75,14 +75,13 @@ class _ContactDetailsState extends State<ContactDetails> {
                           key: _formKey,
                           child: TextFormField(
                             enabled: isEnabled,
-                            controller:
-                                TextEditingController(text: phoneNumber),
-                            keyboardType: TextInputType.number,
+                            controller: TextEditingController(text: address),
+                            keyboardType: TextInputType.text,
                             cursorColor: CustomTheme.primaryColor,
                             onChanged: (val) {
-                              phoneNumber = val;
+                              address = val;
                             },
-                            validator: (val) {
+                            /*validator: (val) {
                               if (val.isEmpty) {
                                 return "Number can't be Empty";
                               }
@@ -91,8 +90,9 @@ class _ContactDetailsState extends State<ContactDetails> {
                               }
                               return null;
                             },
+                             */
                             decoration: InputDecoration(
-                              hintText: "Phone number",
+                              hintText: "Address",
                               hintStyle: CustomTheme.bodyText1.override(
                                 fontFamily: 'Poppins',
                                 fontSize: 13,
